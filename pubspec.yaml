@@ -1,0 +1,9 @@
+name: wasanbon_xmlrpc
+version: 0.0.1
+description: A library useful for applications or for sharing on pub.dartlang.org.
+dependencies:
+  http: any
+  xml_rpc: any
+  yaml: any
+dev_dependencies:
+  unittest: any
