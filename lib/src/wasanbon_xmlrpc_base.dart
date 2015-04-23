@@ -142,10 +142,11 @@ class WasanbonRPC {
     rpc('packages', [])
     .then((result) {
       yaml.YamlMap res = yaml.loadYaml(result[1]);
-      var pkgs = [];
+      List<PackageInfo> pkgs = [];
       for(String name in res.keys) {
         pkgs.add(new PackageInfo(name, res[name]));
       }
+      pkgs.sort((a, b) => a.name.compareTo(b.name));
       completer.complete(pkgs);
     })
     .catchError((error) => completer.completeError(error));
