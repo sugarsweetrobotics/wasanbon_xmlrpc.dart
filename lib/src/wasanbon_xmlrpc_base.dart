@@ -111,6 +111,42 @@ class SystemInfo {
   }
 }
 
+class PackageRepositoryInfo {
+  
+  String name;
+  String url;
+  String description;
+  String type;
+  var platform;
+  
+  PackageRepositoryInfo(this.name, yaml.YamlMap map) {
+    url = map['url'];
+    description = map['description'];
+    type = map['type'];
+    platform = map['platform'];
+  }
+  
+  
+}
+
+class RtcRepositoryInfo {
+  
+  String name;
+  String url;
+  String description;
+  String type;
+  var platform;
+  
+  RtcRepositoryInfo(this.name, yaml.YamlMap map) {
+    url = map['url'];
+    description = map['description'];
+    type = map['type'];
+    platform = map['platform'];
+  }
+  
+  
+}
+
 class WasanbonRPC {
   String url = "RPC";
   http.Client client = null;
@@ -164,6 +200,8 @@ class WasanbonRPC {
       for(String name in res.keys) {
         rtcs.add(new RtcInfo(name, res[name]));
       }
+      rtcs.sort((RtcInfo a, RtcInfo b) => a.name.compareTo(b.name));
+
       completer.complete(rtcs);
     })
     .catchError((error) => completer.completeError(error));
@@ -180,6 +218,7 @@ class WasanbonRPC {
       for(String name in res.keys) {
         syss.add(new SystemInfo(name, res[name]));
       }
+      syss.sort((SystemInfo a, SystemInfo b) => a.name.compareTo(b.name));
       completer.complete(syss);
     })
     .catchError((error) => completer.completeError(error));
@@ -322,6 +361,111 @@ class WasanbonRPC {
       completer.complete(result[1]);
     })
     .catchError((error) => completer.completeError(error));
+    
+    return completer.future;
+  }
+  
+  Future<String> saveRTCProfile(String packageName, String rtcName, String content) {
+    var completer = new Completer();
+    rpc('rtcprofile_update', [packageName, rtcName, content])
+    .then((result) { 
+      completer.complete(result[1]);
+    })
+    .catchError((error) => completer.completeError(error));
+    
+    return completer.future;
+  }
+  
+  Future<String> updateRTCProfile(String packageName, String rtcName) {
+    var completer = new Completer();
+    rpc('rtcprofile_sync', [packageName, rtcName])
+    .then((result) { 
+      completer.complete(result[1]);
+    })
+    .catchError((error) => completer.completeError(error));
+    
+    return completer.future;
+  }
+  
+  Future<String> copyRTSProfile(String packageName, String rtsName, String dstName) {
+    var completer = new Completer();
+    rpc('system_copy', [packageName, rtsName, dstName])
+    .then((result) { 
+      completer.complete(result[1]);
+    })
+    .catchError((error) => completer.completeError(error));
+    
+    return completer.future;
+  }
+  
+  Future<String> deleteRTSProfile(String packageName, String rtsName) {
+    var completer = new Completer();
+    rpc('system_delete', [packageName, rtsName])
+    .then((result) { 
+      completer.complete(result[1]);
+    })
+    .catchError((error) => completer.completeError(error));
+    
+    return completer.future;
+  }
+  
+  Future<List<PackageRepositoryInfo>> listPackageRepositories() {
+    var completer = new Completer();
+    rpc('package_repositories', [])
+    .then((result) {
+      List<PackageRepositoryInfo> infoList = new List<PackageRepositoryInfo>();
+      yaml.YamlMap map = yaml.loadYaml(result[1]);
+      map.keys.forEach((key) {
+        infoList.add(new PackageRepositoryInfo(key, map[key]));
+      });
+      infoList.sort((PackageRepositoryInfo a, PackageRepositoryInfo b) => a.name.compareTo(b.name));
+
+      completer.complete(infoList);
+    })
+    .catchError((error) => completer.completeError(error));
+    
+    return completer.future;
+  }
+  
+  Future<String> deletePackage(pkg) {
+    var completer = new Completer();
+    rpc('delete_package', [pkg])
+    .then((result) {
+      completer.complete(result);
+    })
+    .catchError((error) => completer.completeError(error));
+    
+    return completer.future;
+  }
+  
+  Future<String> clonePackage(pkg) {
+    var completer = new Completer();
+    rpc('clone_package', [pkg])
+    .then((result) {
+      completer.complete(result);
+    })
+    .catchError((error) => completer.completeError(error));
+    
+    return completer.future;
+  }
+  
+  
+  Future<List<RtcRepositoryInfo>> listRtcRepositories(pkg) {
+    var completer = new Completer();
+    rpc('rtc_repositories', [pkg])
+    .then((result) {
+      List<RtcRepositoryInfo> infoList = new List<RtcRepositoryInfo>();
+      yaml.YamlMap map = yaml.loadYaml(result[1]);
+      map.keys.forEach((key) {
+        infoList.add(new RtcRepositoryInfo(key, map[key]));
+      });
+      infoList.sort((a, b) => a.name.compareTo(b.name));
+
+      completer.complete(infoList);
+    })
+    .catchError((error) => 
+        completer.completeError(error)
+        );
     
     return completer.future;
   }

@@ -8,9 +8,11 @@ import 'package:xml/xml.dart' as xml;
 main() {
   var rpc = new wasanbon.WasanbonRPC(url: "http://localhost:8000/RPC");
   
-  rpc.getRTSProfile('simvehicle', 'DefaultSystem.xml')
-  .then((retval) { 
-    print('--Run System ${retval}');
+  rpc.listPackageRepositories()
+  .then((packList) { 
+    packList.forEach((p) {
+      print('- Name:${p.name}');
+    });
   })
   .catchError((res) { 
     print(res);
