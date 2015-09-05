@@ -8,4 +8,10 @@ library wasanbon_xmlrpc;
 
 // TODO: Export any libraries intended for clients of this package.
 
-export 'src/wasanbon_xmlrpc_base.dart';
+export 'src/rpc.dart';
+export 'src/base.dart';
+export 'src/nameservice.dart';
+export 'src/rtc.dart';
+export 'src/package.dart';
+export 'src/system.dart';
+export 'src/admin.dart';

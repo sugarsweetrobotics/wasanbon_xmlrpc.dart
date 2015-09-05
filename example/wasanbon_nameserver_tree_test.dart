@@ -7,16 +7,16 @@ import 'package:xml/xml.dart' as xml;
 main() {
   var rpc = new wasanbon.WasanbonRPC(url: "http://localhost:8000/RPC");
   rpc.getVersionInfo()
-  .then((info) => print(info.version))
+  .then((info) => print('version: ' + info.version))
   .catchError((dat) => print(dat));
   
-  rpc.checkNameService()
+  rpc.treeNameService()
   .then((retval) { 
     print('--NamServer ${retval}');
     
   })
   .catchError((res) { 
-    print(res);
+    print('--Error ${res}');
   });
   
 }
