@@ -14,6 +14,11 @@ main() {
     print('NameServer is running?? : ${retval}');
     running = retval;
 
+    if (!running) {
+      rpc.nameService.startNameService(2809);
+    }
+
+
     if (running) {
       rpc.nameService.treeNameService()
       .then((info) {
