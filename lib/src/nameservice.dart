@@ -225,7 +225,6 @@ class PortList extends Node with ListMixin<PortBase> {
 
   List<PortBase> list = [];
   PortList(Node parent, String name) : super(parent, name) {
-
   }
 
   void set length(int newLength) {list.length = newLength;}
@@ -257,6 +256,8 @@ class Component extends Node {
   PortList outPorts;
   PortList servicePorts;
 
+  Properties properties;
+
   Component(Node parent, String name, yaml.YamlMap map) : super(parent, name) {
     print("Component ${name}");
     inPorts = new PortList(this, "DataInPort");
@@ -272,8 +273,13 @@ class Component extends Node {
         parseInPorts(map[key]);
       } else if (key == "ServicePorts") {
         parseServicePorts(map[key]);
+      } else if (key == "properties") {
+        properties = new Properties(this, "properties", map[key]);
+        this.children.add(properties);
       }
     }
+
+
   }
 
   Node resolve(String path) {
