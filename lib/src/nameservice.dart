@@ -104,6 +104,79 @@ class Properties extends Node {
 
 }
 
+class Configuration extends Node {
+  Configuration(Node parent, String name, String value) : super(parent, name) {
+    super.value = value;
+  }
+}
+
+class ConfigurationSet extends Node with ListMixin<Configuration> {
+  List<Configuration> list = [];
+
+  void set length(int newLength) {list.length = newLength;}
+  int get length => list.length;
+  Configuration operator[](int index) => list[index];
+  void operator[]=(int index, Configuration value) {list[index] = value;}
+  void add(Configuration child) {list.add(child);}
+
+  ConfigurationSet(Node parent, String name, yaml.YamlMap map) : super(parent, name) {
+    for(String key in map.keys) {
+      var conf = new Configuration(this, key, map[key].toString());
+      list.add(conf);
+      children.add(conf);
+    }
+  }
+
+
+  String toString() {
+    String str;
+    str = "  " * getDepth() + name + ' : ';
+    if (length == 0) {
+      str += "{}\n";
+    } else {
+      str += '\n';
+    }
+
+    for(var c in list) {
+      str += c.toString();
+    }
+
+    return str;
+  }
+}
+
+class ConfigurationSetList extends Node with ListMixin<ConfigurationSet> {
+
+  List<ConfigurationSet> list = [];
+  ConfigurationSetList(Node parent, String name) : super(parent, name) {
+  }
+
+  void set length(int newLength) {list.length = newLength;}
+  int get length => list.length;
+  ConfigurationSet operator[](int index) => list[index];
+  void operator[]=(int index, ConfigurationSet value) {list[index] = value;}
+  void add(ConfigurationSet child) {list.add(child);}
+
+  String toString() {
+    String str;
+    str = "  " * getDepth() + name + ' : ';
+    if (length == 0) {
+      str += "{}\n";
+    } else {
+      str += '\n';
+    }
+
+    for(var c in list) {
+      str += c.toString();
+    }
+
+    return str;
+  }
+}
+
+/**
+ * Class for Connection Management
+ */
 class Connection extends Node {
   String id;
   Properties properties;
@@ -250,6 +323,9 @@ class PortList extends Node with ListMixin<PortBase> {
   }
 }
 
+/**
+ * Utility Class for Component Reference
+ */
 class Component extends Node {
 
   PortList inPorts;
@@ -258,14 +334,18 @@ class Component extends Node {
 
   Properties properties;
 
+  ConfigurationSetList configurationSets;
+  String state;
+
   Component(Node parent, String name, yaml.YamlMap map) : super(parent, name) {
-    print("Component ${name}");
     inPorts = new PortList(this, "DataInPort");
     outPorts = new PortList(this, "DataOutPort");
     servicePorts = new PortList(this, "ServicePorts");
+    configurationSets = new ConfigurationSetList(this, "ConfigurationSets");
     this.children.add(inPorts);
     this.children.add(outPorts);
     this.children.add(servicePorts);
+    this.children.add(configurationSets);
     for(String key in map.keys) {
       if (key == "DataOutPorts") {
         parseOutPorts(map[key]);
@@ -276,10 +356,30 @@ class Component extends Node {
       } else if (key == "properties") {
         properties = new Properties(this, "properties", map[key]);
         this.children.add(properties);
+      } else if (key == "state") {
+        this.state = map[key];
+      } else if (key == "ConfigurationSets") {
+        parseConfigurationSets(map[key]);
+      }
+    }
+  }
+
+  String get full_path {
+    void iterate_path(List<String> path, Node node) {
+      path.insert(0, node.name);
+      if (node.parent != null) {
+        iterate_path(path, node.parent);
       }
     }
 
+    var path = [];
+    iterate_path(path, this);
+    String full_path = '';
+    for(String p in path.sublist(1)) {
+      full_path += '/' + p;
 
+    }
+    return full_path;
   }
 
   Node resolve(String path) {
@@ -310,6 +410,12 @@ class Component extends Node {
     return null;
   }
 
+  void parseConfigurationSets(yaml.YamlMap map) {
+    for(String key in map.keys) {
+      configurationSets.add(new ConfigurationSet(configurationSets, key, map[key]));
+    }
+  }
+
   void parseOutPorts(yaml.YamlMap map) {
     for(String key in map.keys) {
       outPorts.add(new DataOutPort(outPorts, key, map[key]));
@@ -332,8 +438,31 @@ class Component extends Node {
   }
 }
 
+/**
+ * Utility class for Naming Service
+ */
 class NameService extends Node {
   NameService(Node parent, String name) : super(parent, name) {
+  }
+
+
+  List<Component> get components {
+
+    List<Component> compList = [];
+    void iterateComponent(List<Component> list, Node node) {
+      node.children.forEach((child) {
+        if (child is Component) {
+          list.add(child);
+        }
+        if (child.children.length > 0) {
+          iterateComponent(list, child);
+        }
+      });
+
+    }
+
+    iterateComponent(compList, this);
+    return compList;
   }
 
 }
@@ -342,8 +471,7 @@ class NameService extends Node {
 class NameServiceList extends Node with ListMixin<NameService> {
 
   List<NameService> list = [];
-  NameServiceList(Node parent, String name) : super(parent, name) {
-
+  NameServiceList(Node parent) : super(parent, '/') {
   }
 
   void set length(int newLength) {list.length = newLength;}
@@ -366,13 +494,12 @@ class NameServiceList extends Node with ListMixin<NameService> {
     return null;
   }
 
+
   NameService find(String path) {
     if (path.indexOf(':') < 0) {
       path = path + ':2809';
     }
-    if (!path.startsWith('/')) {
-      path = '/' + path;
-    }
+
     for(NameService ns in list) {
       if(ns.name == path) {
         return ns;
@@ -400,7 +527,9 @@ class NameServiceList extends Node with ListMixin<NameService> {
   }
 }
 
-
+/**
+ * Class for Manager Reference
+ */
 class Manager extends Node {
   Manager(Node parent, String name, yaml.YamlMap map) : super(parent, name) {
     print("Manager ${name}");
@@ -437,7 +566,7 @@ void nameServiceParserSub(Node parent, yaml.YamlMap map) {
 }
 
 NameServiceList nameServiceParser(yaml.YamlMap map) {
-  NameServiceList nodes = new NameServiceList(null, "NameServers");
+  NameServiceList nodes = new NameServiceList(null);
   for(String ns in map.keys) {
     Node root = new NameService(nodes, ns);
     nameServiceParserSub(root, map[ns]);
@@ -496,14 +625,14 @@ class NameServiceFunction extends WasanbonRPCBase {
     var completer = new Completer();
     rpc('check_name_service', [])
     .then((result) {
-      completer.complete(result[1].indexOf('Running') >= 0 ? true : false);
+      completer.complete(result[1].indexOf('Not Running') >= 0 ? false : true);
     })
     .catchError((error) => completer.completeError(error));
 
     return completer.future;
   }
 
-  Future<bool> treeNameService() {
+  Future<NameServerInfo> treeNameService() {
     var completer = new Completer();
     rpc('tree_name_service', [2809])
     .then((result) {
@@ -516,4 +645,47 @@ class NameServiceFunction extends WasanbonRPCBase {
     return completer.future;
   }
 
+  Future<String> activateRTC(fullPath) {
+    var completer = new Completer();
+    rpc('activate_rtc', [fullPath])
+    .then((result) {
+      print(result);
+      completer.complete(result[1]);
+    })
+    .catchError((error) => completer.completeError(error));
+    return completer.future;
+  }
+
+  Future<String> deactivateRTC(fullPath) {
+    var completer = new Completer();
+    rpc('deactivate_rtc', [fullPath])
+    .then((result) {
+      print(result);
+      completer.complete(result[1]);
+    })
+    .catchError((error) => completer.completeError(error));
+    return completer.future;
+  }
+
+  Future<String> resetRTC(fullPath) {
+    var completer = new Completer();
+    rpc('reset_rtc', [fullPath])
+    .then((result) {
+      print(result);
+      completer.complete(result[1]);
+    })
+    .catchError((error) => completer.completeError(error));
+    return completer.future;
+  }
+
+  Future<String> configureRTC(fullPath, confSetName, confName, confValue) {
+    var completer = new Completer();
+    rpc('configure_rtc', [fullPath, confSetName, confName, confValue])
+    .then((result) {
+      print(result);
+      completer.complete(result[1]);
+    })
+    .catchError((error) => completer.completeError(error));
+    return completer.future;
+  }
 }
