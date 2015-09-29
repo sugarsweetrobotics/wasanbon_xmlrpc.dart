@@ -181,7 +181,6 @@ class PackageFunction extends WasanbonRPCBase {
         infoList.add(new RtcRepositoryInfo(key, map[key]));
       });
       infoList.sort((a, b) => a.name.compareTo(b.name));
-
       completer.complete(infoList);
     })
     .catchError((error) =>

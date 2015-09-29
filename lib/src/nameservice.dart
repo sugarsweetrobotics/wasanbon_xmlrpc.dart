@@ -412,7 +412,9 @@ class Component extends Node {
 
   void parseConfigurationSets(yaml.YamlMap map) {
     for(String key in map.keys) {
-      configurationSets.add(new ConfigurationSet(configurationSets, key, map[key]));
+      if (map[key] != null) {
+        configurationSets.add(new ConfigurationSet(configurationSets, key, map[key]));
+      }
     }
   }
 
@@ -592,6 +594,23 @@ class NameServerInfo {
   }
 }
 
+/**
+ * Struct for Connectable Pair
+ */
+class ConnectablePortPair {
+  List<String> ports = [];
+  bool connected;
+  ConnectablePortPair(List<String> info) {
+    connected = (info.length == 3);
+    ports.add(info[0]);
+    ports.add(info[info.length-1]);
+  }
+
+  String toString() {
+    return "Connectable Pair [${ports[0]} , ${ports[1]}] (connected = ${connected})";
+  }
+}
+
 
 class NameServiceFunction extends WasanbonRPCBase {
 
@@ -636,7 +655,6 @@ class NameServiceFunction extends WasanbonRPCBase {
     var completer = new Completer();
     rpc('tree_name_service', [2809])
     .then((result) {
-      print(result);
       completer.complete(new NameServerInfo(yaml.loadYaml(result[1])));
     })
     .catchError((error) => completer.completeError(error));
@@ -649,7 +667,6 @@ class NameServiceFunction extends WasanbonRPCBase {
     var completer = new Completer();
     rpc('activate_rtc', [fullPath])
     .then((result) {
-      print(result);
       completer.complete(result[1]);
     })
     .catchError((error) => completer.completeError(error));
@@ -660,7 +677,6 @@ class NameServiceFunction extends WasanbonRPCBase {
     var completer = new Completer();
     rpc('deactivate_rtc', [fullPath])
     .then((result) {
-      print(result);
       completer.complete(result[1]);
     })
     .catchError((error) => completer.completeError(error));
@@ -671,7 +687,6 @@ class NameServiceFunction extends WasanbonRPCBase {
     var completer = new Completer();
     rpc('reset_rtc', [fullPath])
     .then((result) {
-      print(result);
       completer.complete(result[1]);
     })
     .catchError((error) => completer.completeError(error));
@@ -681,6 +696,51 @@ class NameServiceFunction extends WasanbonRPCBase {
   Future<String> configureRTC(fullPath, confSetName, confName, confValue) {
     var completer = new Completer();
     rpc('configure_rtc', [fullPath, confSetName, confName, confValue])
+    .then((result) {
+      completer.complete(result[1]);
+    })
+    .catchError((error) => completer.completeError(error));
+    return completer.future;
+  }
+
+
+  Future<List<ConnectablePortPair>> listConnectablePairs(List<String> nameServers) {
+    var completer = new Completer();
+    var arg = "";
+    for(String ns in nameServers) {
+      arg += ',' + ns ;
+    }
+    arg = arg.substring(1);
+    List<ConnectablePortPair> list = [];
+    rpc('list_connectable_pairs', [arg])
+    .then((result) {
+      String value = result[1];
+      RegExp reg = new RegExp(r'\r\n|\r|\n', multiLine : true);
+      var lines = value.trim().split(reg);
+      for(String line in lines) {
+        RegExp reg = new RegExp(r'[ ]+');
+        list.add(new ConnectablePortPair(line.trim().split(reg)));
+      }
+      completer.complete(list);
+    })
+    .catchError((error) => completer.completeError(error));
+    return completer.future;
+  }
+
+  Future<bool> connectPorts(ConnectablePortPair pair, {String param : ""}) {
+    var completer = new Completer();
+    rpc('connect_ports', [pair.ports[0], pair.ports[1], param])
+    .then((result) {
+      print(result);
+      completer.complete(result[1]);
+    })
+    .catchError((error) => completer.completeError(error));
+    return completer.future;
+  }
+
+  Future<bool> disconnectPorts(ConnectablePortPair pair) {
+    var completer = new Completer();
+    rpc('disconnect_ports', [pair.ports[0], pair.ports[1]])
     .then((result) {
       print(result);
       completer.complete(result[1]);

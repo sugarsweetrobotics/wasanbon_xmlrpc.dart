@@ -126,6 +126,28 @@ class AdminFunction extends WasanbonRPCBase {
     return completer.future;
   }
 
+  /// Get Running Package Info List of wasanbon server
+  Future<List<PackageInfo>> getRunningPackageInfos() {
+    var completer = new Completer();
+    rpc('running_packages', [])
+    .then((result) {
+      yaml.YamlMap res = yaml.loadYaml(result[1]);
+
+      List<PackageInfo> pkgs = [];
+      if(res != null) {
+
+        for (String name in res.keys) {
+          pkgs.add(new PackageInfo(name, res[name]));
+        }
+        pkgs.sort((a, b) => a.name.compareTo(b.name));
+      }
+      completer.complete(pkgs);
+    })
+    .catchError((error) => completer.completeError(error));
+
+    return completer.future;
+  }
+
 
   Future<List<PackageRepositoryInfo>> getPackageRepositories() {
     var completer = new Completer();
