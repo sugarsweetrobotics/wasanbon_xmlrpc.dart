@@ -714,12 +714,14 @@ class NameServiceFunction extends WasanbonRPCBase {
     List<ConnectablePortPair> list = [];
     rpc('list_connectable_pairs', [arg])
     .then((result) {
-      String value = result[1];
+      String value = result[1].trim();
       RegExp reg = new RegExp(r'\r\n|\r|\n', multiLine : true);
       var lines = value.trim().split(reg);
       for(String line in lines) {
-        RegExp reg = new RegExp(r'[ ]+');
-        list.add(new ConnectablePortPair(line.trim().split(reg)));
+        if (line.trim().length > 0) {
+          RegExp reg = new RegExp(r'[ ]+');
+          list.add(new ConnectablePortPair(line.trim().split(reg)));
+        }
       }
       completer.complete(list);
     })
