@@ -419,15 +419,19 @@ class Component extends Node {
   }
 
   void parseOutPorts(yaml.YamlMap map) {
-    for(String key in map.keys) {
-      outPorts.add(new DataOutPort(outPorts, key, map[key]));
+    if (map != null) {
+      for (String key in map.keys) {
+        outPorts.add(new DataOutPort(outPorts, key, map[key]));
+      }
     }
 
   }
 
   void parseInPorts(yaml.YamlMap map) {
-    for(String key in map.keys) {
-      inPorts.add(new DataInPort(inPorts, key, map[key]));
+    if (map != null) {
+      for (String key in map.keys) {
+        inPorts.add(new DataInPort(inPorts, key, map[key]));
+      }
     }
 
   }
@@ -651,10 +655,11 @@ class NameServiceFunction extends WasanbonRPCBase {
     return completer.future;
   }
 
-  Future<NameServerInfo> treeNameService() {
+  Future<NameServerInfo> treeNameService({String host: 'localhost', int port: 2809}) {
     var completer = new Completer();
-    rpc('tree_name_service', [2809])
+    rpc('tree_name_service_ex', [host, port])
     .then((result) {
+      print(result[1]);
       completer.complete(new NameServerInfo(yaml.loadYaml(result[1])));
     })
     .catchError((error) => completer.completeError(error));

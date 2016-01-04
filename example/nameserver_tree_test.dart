@@ -25,7 +25,7 @@ main() {
         print("Tree:");
         print(info);
       })
-      .catchError((err) => print("Error: ${err}"));
+      .catchError((err) => print("Error: ${err}:"));
     }
   })
   .catchError((res) {

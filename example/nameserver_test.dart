@@ -7,7 +7,7 @@ import 'package:xml/xml.dart' as xml;
 import 'dart:async';
 
 main() {
-  wasanbon.WasanbonRPC rpc = new wasanbon.WasanbonRPC(url: "http://localhost:8000/RPC");
+  wasanbon.WasanbonRPC rpc = new wasanbon.WasanbonRPC(url: "http://192.168.120.20:8000/RPC");
 
   bool running = false;
   int port = 2809;
