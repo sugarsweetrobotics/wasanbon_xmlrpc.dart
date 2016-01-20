@@ -288,10 +288,88 @@ class DataInPort extends PortBase {
   }
 }
 
-class ServicePort extends PortBase {
-  ServicePort(Node parent, String name, yaml.YamlMap map) : super(parent, name, map) {
+class ServiceInterface extends Node {
 
+  String instance_name;
+  String type_name;
+  String polarity;
+
+  ServiceInterface(Node parent, String name, yaml.YamlMap map) : super(parent, name) {
+    map.forEach((var key, var value) {
+      if (key == 'instance_name') {
+        instance_name = value;
+      } else if (key == 'type_name') {
+        type_name = value;
+      } else if (key == 'polarity') {
+        polarity = value;
+      }
+
+    });
   }
+
+
+  String toString() {
+    String str;
+    str = "  " * getDepth() + 'instance_name : ' + name + '\n';
+    str = "  " * getDepth() + 'type_name     : ' + name + '\n';
+    str = "  " * getDepth() + 'polarity      : ' + name + '\n';
+    return str;
+  }
+}
+
+
+class ServiceInterfaceList extends Node with ListMixin<ServiceInterface> {
+
+  List<ServiceInterface> list = [];
+  ServiceInterfaceList(Node parent, String name) : super(parent, name) {
+  }
+
+  void set length(int newLength) {list.length = newLength;}
+  int get length => list.length;
+  ServiceInterface operator[](int index) => list[index];
+  void operator[]=(int index, ServiceInterface value) {list[index] = value;}
+  void add(ServiceInterface child) {list.add(child);}
+
+  String toString() {
+    String str;
+    str = "  " * getDepth() + name + ' : ';
+    if (length == 0) {
+      str += "{}\n";
+    } else {
+      str += '\n';
+    }
+
+    for(var c in list) {
+      str += c.toString();
+    }
+
+    return str;
+  }
+}
+
+
+class ServicePort extends PortBase {
+
+  ServiceInterfaceList interfaces;
+  ServicePort(Node parent, String name, yaml.YamlMap map) : super(parent, name, map) {
+    interfaces = new ServiceInterfaceList(this, 'interfaces');
+    this.children.add(interfaces);
+    map.keys.forEach((String key) {
+      if (key == "interfaces") {
+        parseInterfaces(map[key]);
+      }
+    });
+  }
+
+  void parseInterfaces(yaml.YamlMap map) {
+      if (map != null) {
+        for (String key in map.keys) {
+          interfaces.add(new ServiceInterface(interfaces, key, map[key]));
+        }
+      }
+  }
+
+
 }
 
 class PortList extends Node with ListMixin<PortBase> {
@@ -698,6 +776,16 @@ class NameServiceFunction extends WasanbonRPCBase {
     return completer.future;
   }
 
+  Future<String> exitRTC(fullPath) {
+    var completer = new Completer();
+    rpc('exit_rtc', [fullPath])
+        .then((result) {
+      completer.complete(result[1]);
+    })
+        .catchError((error) => completer.completeError(error));
+    return completer.future;
+  }
+
   Future<String> configureRTC(fullPath, confSetName, confName, confValue) {
     var completer = new Completer();
     rpc('configure_rtc', [fullPath, confSetName, confName, confValue])
@@ -723,7 +811,7 @@ class NameServiceFunction extends WasanbonRPCBase {
       RegExp reg = new RegExp(r'\r\n|\r|\n', multiLine : true);
       var lines = value.trim().split(reg);
       for(String line in lines) {
-        if (line.trim().length > 0) {
+        if (line.trim().length > 0 && line.startsWith('/')) {
           RegExp reg = new RegExp(r'[ ]+');
           list.add(new ConnectablePortPair(line.trim().split(reg)));
         }
@@ -738,7 +826,6 @@ class NameServiceFunction extends WasanbonRPCBase {
     var completer = new Completer();
     rpc('connect_ports', [pair.ports[0], pair.ports[1], param])
     .then((result) {
-      print(result);
       completer.complete(result[1]);
     })
     .catchError((error) => completer.completeError(error));

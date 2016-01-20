@@ -12,6 +12,7 @@ import 'nameservice.dart';
 import 'rtc.dart';
 import 'package.dart';
 import 'system.dart';
+import 'misc.dart';
 
 class WasanbonRPC {
 
@@ -20,6 +21,7 @@ class WasanbonRPC {
   RtcFunction rtc;
   SystemFunction system;
   PackageFunction package;
+  MiscFunction misc;
 
   WasanbonRPC({String url:'http://localhost:8000/RPC', http.Client client:null}) {
     admin = new AdminFunction(url: url, client: client);
@@ -27,6 +29,7 @@ class WasanbonRPC {
     rtc = new RtcFunction(url: url, client: client);
     system = new SystemFunction(url: url, client: client);
     package = new PackageFunction(url: url, client: client);
+    misc = new MiscFunction(url:url, client: client);
   }
 
 
