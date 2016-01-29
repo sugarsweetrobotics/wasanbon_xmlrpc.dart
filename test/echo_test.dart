@@ -8,13 +8,15 @@ import 'package:unittest/unittest.dart' as test;
 import 'package:wasanbon_xmlrpc/wasanbon_xmlrpc.dart' as wasanbon;
 
 main() {
-  test.group('Echo tests', () {
+
+  test.group('Misc tests', () {
     wasanbon.WasanbonRPC rpc;
 
     test.setUp(() async {
       rpc = new wasanbon.WasanbonRPC(url: "http://localhost:8000/RPC");
     });
 
+    /// エコーバックテスト
     test.test('Echo Test', () async {
       var yahoo = 'Hello';
       Future f = rpc.misc.echo(yahoo).then( (var msg) {
@@ -28,6 +30,7 @@ main() {
     });
   });
 
+  /// プロセス管理テスト
   test.group('Processes', () {
     wasanbon.WasanbonRPC rpc;
 
@@ -38,17 +41,30 @@ main() {
     test.test('Save file test', () async {
       var filename = 'test_file_name.py';
       var content = 'print "Hello World. This is Python script"';
+
+      /// Pythonスクリプトを送信
       test.expect(rpc.files.uploadFile(filename, content).then((var ret) {
         print('Saved File $filename is $ret');
         test.expect(ret, test.isTrue);
 
+        /// Pythonスクリプトの内容確認
         test.expect(rpc.files.downloadFile(filename).then((var ret) {
           print('File content is $ret');
           test.expect(ret == content, test.isTrue);
 
+          /// Pythonスクリプトの実行
           test.expect(rpc.processes.run(filename).then((var ret) {
             print('Process Run is $ret');
             test.expect(ret, test.isTrue);
+
+            /// Pythonスクリプトの除去
+            test.expect(rpc.files.deleteFile(filename).then((var ret) {
+              print('File remove is $ret');
+              test.expect(ret, test.isTrue);
+            }).catchError((dat) {
+              test.fail('Exception occured in removing Script');
+              print(dat);
+            }), test.completes);
 
 
           }).catchError((dat) {
@@ -66,17 +82,6 @@ main() {
         print(dat);
       }), test.completes);
 
-
-
-      /*
-      test.expect(rpc.files.deleteFile(filename).then((var ret) {
-        print('File remove is $ret');
-        test.expect(ret, test.isTrue);
-      }).catchError((dat) {
-        test.fail('Exception occured in Test');
-        print(dat);
-      }), test.completes);
-      */
     });
   });
 
@@ -88,6 +93,7 @@ main() {
       rpc = new wasanbon.WasanbonRPC(url: "http://localhost:8000/RPC");
     });
 
+    /// ルートディレクトリのリスティングテスト
     test.test('List Directory Test', () async {
       var path = '/';
       var f = rpc.files.listDirectory(path).then((var lst) {
@@ -100,6 +106,7 @@ main() {
       test.expect(f, test.completes);
     });
 
+    /// カレントディレクトリ変更テスト
     test.test('Change Directory Test', () async {
       var path = '.';
       var f = rpc.files.changeDirectory(path).then((var pwd) {
@@ -113,6 +120,7 @@ main() {
       test.expect(f, test.completes);
     });
 
+    /// カレントディレクトリ取得テスト
     test.test('Print Current Directory Test', () async {
       test.expect(rpc.files.printWorkingDirectory().then((var pwd) {
         print('Current dir is $pwd');
@@ -127,15 +135,18 @@ main() {
     test.test('Save File Test', () async {
       var filename = 'test_file_name.txt';
       var content = 'This is test file for wasanbon_rpc';
+
+      /// ファイル保存テスト
       test.expect(rpc.files.uploadFile(filename, content).then((var ret) {
         print('Saved File $filename is $ret');
         test.expect(ret, test.isTrue);
 
-
+        /// ファイル内容確認
         test.expect(rpc.files.downloadFile(filename).then((var ret) {
           print('File content is $ret');
           test.expect(ret == content, test.isTrue);
 
+          /// ファイルの除去
           test.expect(rpc.files.deleteFile(filename).then((var ret) {
             print('File remove is $ret');
             test.expect(ret, test.isTrue);
