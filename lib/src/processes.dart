@@ -17,9 +17,11 @@ class ProcessesFunction extends WasanbonRPCBase {
 
   }
 
-  Future<bool> run(String filename) {
+  Future<bool> run(String filename, {List<String> args : null }) {
+    if (args == null) args = [];
+
     var completer = new Completer();
-    rpc('processes_run', [filename]).then((result) {
+    rpc('processes_run', [filename, args]).then((result) {
       completer.complete(result[0]);
     }).catchError((error) => completer.completeError(error));
     return completer.future;

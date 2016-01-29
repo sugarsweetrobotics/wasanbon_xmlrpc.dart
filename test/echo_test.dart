@@ -28,6 +28,58 @@ main() {
     });
   });
 
+  test.group('Processes', () {
+    wasanbon.WasanbonRPC rpc;
+
+    test.setUp(() async {
+      rpc = new wasanbon.WasanbonRPC(url: "http://localhost:8000/RPC");
+    });
+
+    test.test('Save file test', () async {
+      var filename = 'test_file_name.py';
+      var content = 'print "Hello World. This is Python script"';
+      test.expect(rpc.files.uploadFile(filename, content).then((var ret) {
+        print('Saved File $filename is $ret');
+        test.expect(ret, test.isTrue);
+
+        test.expect(rpc.files.downloadFile(filename).then((var ret) {
+          print('File content is $ret');
+          test.expect(ret == content, test.isTrue);
+
+          test.expect(rpc.processes.run(filename).then((var ret) {
+            print('Process Run is $ret');
+            test.expect(ret, test.isTrue);
+
+
+          }).catchError((dat) {
+            test.fail('Exception occured in processes_run ');
+            print(dat);
+          }), test.completes);
+
+        }).catchError((dat) {
+          test.fail('Exception occured in content verification.');
+          print(dat);
+        }), test.completes);
+
+      }).catchError((dat) {
+        test.fail('Exception occured in Test');
+        print(dat);
+      }), test.completes);
+
+
+
+      /*
+      test.expect(rpc.files.deleteFile(filename).then((var ret) {
+        print('File remove is $ret');
+        test.expect(ret, test.isTrue);
+      }).catchError((dat) {
+        test.fail('Exception occured in Test');
+        print(dat);
+      }), test.completes);
+      */
+    });
+  });
+
 
   test.group('Files Tests', () {
     wasanbon.WasanbonRPC rpc;
@@ -76,28 +128,37 @@ main() {
       var filename = 'test_file_name.txt';
       var content = 'This is test file for wasanbon_rpc';
       test.expect(rpc.files.uploadFile(filename, content).then((var ret) {
-        print('Saved File is $ret');
+        print('Saved File $filename is $ret');
         test.expect(ret, test.isTrue);
+
+
+        test.expect(rpc.files.downloadFile(filename).then((var ret) {
+          print('File content is $ret');
+          test.expect(ret == content, test.isTrue);
+
+          test.expect(rpc.files.deleteFile(filename).then((var ret) {
+            print('File remove is $ret');
+            test.expect(ret, test.isTrue);
+          }).catchError((dat) {
+            test.fail('Exception occured in File content verification.');
+            print(dat);
+          }), test.completes);
+
+        }).catchError((dat) {
+          test.fail('Exception occured in Removing file. ');
+          print(dat);
+        }), test.completes);
+
+
+
+
+
       }).catchError((dat) {
         test.fail('Exception occured in Test');
         print(dat);
       }), test.completes);
 
-      test.expect(rpc.files.downloadFile(filename).then((var ret) {
-        print('File content is $ret');
-        test.expect(ret == content, test.isTrue);
-      }).catchError((dat) {
-        test.fail('Exception occured in content ');
-        print(dat);
-      }), test.completes);
 
-      test.expect(rpc.files.deleteFile(filename).then((var ret) {
-        print('File remove is $ret');
-        test.expect(ret, test.isTrue);
-      }).catchError((dat) {
-        test.fail('Exception occured in Test');
-        print(dat);
-      }), test.completes);
 
 
     });
