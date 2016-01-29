@@ -15,3 +15,5 @@ export 'src/rtc.dart';
 export 'src/package.dart';
 export 'src/system.dart';
 export 'src/admin.dart';
+export 'src/files.dart';
+export 'src/processes.dart';

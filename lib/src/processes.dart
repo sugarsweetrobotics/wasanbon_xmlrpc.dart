@@ -3,48 +3,29 @@
 
 // TODO: Put public facing types in this file.
 
-library wasanbon_xmlrpc.misc;
+library wasanbon_xmlrpc.processes;
 import "base.dart";
 import 'dart:async';
 import 'package:http/http.dart' as http;
 
 
-class MiscFunction extends WasanbonRPCBase {
+class ProcessesFunction extends WasanbonRPCBase {
 
-  MiscFunction(
+  ProcessesFunction(
       {String url: 'http://localhost:8000/RPC', http.Client client: null})
       : super(url: url, client: client) {
 
   }
 
-  Future<String> echo(String code) {
+  Future<bool> run(String filename) {
     var completer = new Completer();
-    rpc('misc_echo', [code]).then((result) {
-      completer.complete(result[1].toString());
-    }).catchError((error) => completer.completeError(error));
-    return completer.future;
-  }
-
-  /**
-   * code : Code
-   * return : filename
-   */
-  Future<String> sendCode(String code) {
-    var completer = new Completer();
-    rpc('misc_send_code', [code]).then((result) {
-      completer.complete(result[1].toString());
-    }).catchError((error) => completer.completeError(error));
-    return completer.future;
-  }
-
-  Future<bool> startCode(String filename) {
-    var completer = new Completer();
-    rpc('misc_start_code', [filename]).then((result) {
+    rpc('processes_run', [filename]).then((result) {
       completer.complete(result[0]);
     }).catchError((error) => completer.completeError(error));
     return completer.future;
   }
 
+  /*
   Future<String> killCode(String filename) {
     var completer = new Completer();
     rpc('misc_kill_code', []).then((result) {
@@ -68,5 +49,6 @@ class MiscFunction extends WasanbonRPCBase {
     }).catchError((error) => completer.completeError(error));
     return completer.future;
   }
+  */
 
 }

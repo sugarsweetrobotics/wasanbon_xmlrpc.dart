@@ -13,6 +13,8 @@ import 'rtc.dart';
 import 'package.dart';
 import 'system.dart';
 import 'misc.dart';
+import 'files.dart';
+import 'processes.dart';
 
 class WasanbonRPC {
 
@@ -22,6 +24,8 @@ class WasanbonRPC {
   SystemFunction system;
   PackageFunction package;
   MiscFunction misc;
+  FilesFunction files;
+  ProcessesFunction processes;
 
   WasanbonRPC({String url:'http://localhost:8000/RPC', http.Client client:null}) {
     admin = new AdminFunction(url: url, client: client);
@@ -30,6 +34,8 @@ class WasanbonRPC {
     system = new SystemFunction(url: url, client: client);
     package = new PackageFunction(url: url, client: client);
     misc = new MiscFunction(url:url, client: client);
+    files = new FilesFunction(url:url, client:client);
+    processes = new ProcessesFunction(url:url, client:client);
   }
 
 
