@@ -10,19 +10,6 @@ import 'package:xml/xml.dart' as xml;
 import 'base.dart';
 
 
-class VersionInfo {
-  var version = "0.0";
-  var platform = "none";
-  VersionInfo(result) {
-    this.version = result[1]['wasanbon'];
-    this.platform = result[1]['platform'];
-  }
-
-  String toString() {
-    return 'VersionInfo version="${version}" platform="${platform}"';
-  }
-
-}
 
 class PackageInfo {
   String name = "";
@@ -99,14 +86,7 @@ class AdminFunction extends WasanbonRPCBase {
 
   }
 
-  /// Get Version Infomation of wasanbon server
-  Future<VersionInfo> getVersionInfo() {
-    var completer = new Completer();
-    rpc('version', [])
-    .then((result) => completer.complete(new VersionInfo(result)))
-    .catchError((error) => completer.completeError(error));
-    return completer.future;
-  }
+
 
   /// Get Package Info List of wasanbon server
   Future<List<PackageInfo>> getPackageInfos() {

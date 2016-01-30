@@ -8,6 +8,20 @@ import "base.dart";
 import 'dart:async';
 import 'package:http/http.dart' as http;
 
+class VersionInfo {
+  var version = "0.0";
+  var platform = "none";
+  VersionInfo(result) {
+    this.version = result[1]['wasanbon'];
+    this.platform = result[1]['platform'];
+  }
+
+  String toString() {
+    return 'VersionInfo version="${version}" platform="${platform}"';
+  }
+}
+
+
 
 class MiscFunction extends WasanbonRPCBase {
 
@@ -25,47 +39,12 @@ class MiscFunction extends WasanbonRPCBase {
     return completer.future;
   }
 
-  /**
-   * code : Code
-   * return : filename
-   */
-  Future<String> sendCode(String code) {
+  /// Get Version Infomation of wasanbon server
+  Future<VersionInfo> getVersionInfo() {
     var completer = new Completer();
-    rpc('misc_send_code', [code]).then((result) {
-      completer.complete(result[1].toString());
-    }).catchError((error) => completer.completeError(error));
-    return completer.future;
-  }
-
-  Future<bool> startCode(String filename) {
-    var completer = new Completer();
-    rpc('misc_start_code', [filename]).then((result) {
-      completer.complete(result[0]);
-    }).catchError((error) => completer.completeError(error));
-    return completer.future;
-  }
-
-  Future<String> killCode(String filename) {
-    var completer = new Completer();
-    rpc('misc_kill_code', []).then((result) {
-      completer.complete(result[1].toString());
-    }).catchError((error) => completer.completeError(error));
-    return completer.future;
-  }
-
-  Future<String> readStdout() {
-    var completer = new Completer();
-    rpc('misc_read_stdout', []).then((result) {
-      completer.complete(result[1].toString());
-    }).catchError((error) => completer.completeError(error));
-    return completer.future;
-  }
-
-  Future<String> communicate() {
-    var completer = new Completer();
-    rpc('misc_communicate', []).then((result) {
-      completer.complete(result[1].toString());
-    }).catchError((error) => completer.completeError(error));
+    rpc('misc_version', [])
+        .then((result) => completer.complete(new VersionInfo(result)))
+        .catchError((error) => completer.completeError(error));
     return completer.future;
   }
 
