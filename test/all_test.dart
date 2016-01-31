@@ -3,19 +3,14 @@
 
 library wasanbon_xmlrpc.test;
 
-import 'package:unittest/unittest.dart';
-import 'package:wasanbon_xmlrpc/wasanbon_xmlrpc.dart';
+import 'files_test.dart';
+import 'processes_test.dart';
+import 'admin_test.dart';
+import 'misc_test.dart';
 
 main() {
-  group('A group of tests', () {
-    Awesome awesome;
-
-    setUp(() {
-      awesome = new Awesome();
-    });
-
-    test('First Test', () {
-      expect(awesome.isAwesome, isTrue);
-    });
-  });
+  misc_test();
+  admin_test();
+  processes_test();
+  files_test();
 }

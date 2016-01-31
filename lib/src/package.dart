@@ -24,8 +24,6 @@ class RtcInfo {
   }
 }
 
-
-
 class PackageFunction extends WasanbonRPCBase {
 
   PackageFunction({String url:'http://localhost:8000/RPC', http.Client client:null}) : super(url:url, client:client) {
@@ -63,8 +61,6 @@ class PackageFunction extends WasanbonRPCBase {
 
     return completer.future;
   }
-
-
 
 
   Future<List<SystemInfo>> getSystemInfos(String packageName) {

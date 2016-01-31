@@ -28,7 +28,8 @@ class PackageInfo {
   List<String> rtcNames = new List<String>();
 
   String toString() {
-    return 'PackageInfo name="${name}" description="${description}"';
+    return name;
+//    return 'PackageInfo name="${name}" description="${description}"';
   }
 
 
@@ -76,7 +77,8 @@ class PackageRepositoryInfo {
   }
 
   String toString() {
-    return 'PackageReposiotryInfo name="${name}" url="${url}" description="${description}"';
+    return name;
+    //return 'PackageReposiotryInfo name="${name}" url="${url}" description="${description}"';
   }
 }
 
@@ -86,12 +88,41 @@ class AdminFunction extends WasanbonRPCBase {
 
   }
 
+  /// Get Package Repository List
+  Future<List<PackageRepositoryInfo>> getPackageRepositoryList() {
+    var completer = new Completer();
+    rpc('admin_repository_list', [])
+        .then((result) {
+      List<PackageRepositoryInfo> infoList = new List<PackageRepositoryInfo>();
+      yaml.YamlMap map = yaml.loadYaml(result[1]);
+      map.keys.forEach((key) {
+        infoList.add(new PackageRepositoryInfo(key, map[key]));
+      });
+      infoList.sort((PackageRepositoryInfo a, PackageRepositoryInfo b) => a.name.compareTo(b.name));
 
+      completer.complete(infoList);
+    })
+        .catchError((error) => completer.completeError(error));
+
+    return completer.future;
+  }
+
+  Future<String> clonePackageRepository(String repoName) {
+    var completer = new Completer();
+    rpc('admin_repository_clone', [repoName])
+        .then((result) {
+      completer.complete(result);
+    }).catchError((error) {
+      completer.completeError(error);
+    });
+
+    return completer.future;
+  }
 
   /// Get Package Info List of wasanbon server
-  Future<List<PackageInfo>> getPackageInfos() {
+  Future<List<PackageInfo>> getPackageList() {
     var completer = new Completer();
-    rpc('packages', [])
+    rpc('admin_package_list', [])
     .then((result) {
       yaml.YamlMap res = yaml.loadYaml(result[1]);
       List<PackageInfo> pkgs = [];
@@ -105,6 +136,20 @@ class AdminFunction extends WasanbonRPCBase {
 
     return completer.future;
   }
+
+  Future<String> deletePackage(pkg) {
+    var completer = new Completer();
+    rpc('admin_package_delete', [pkg])
+        .then((result) {
+      completer.complete(result);
+    }).catchError((error) {
+      completer.completeError(error);
+    });
+
+    return completer.future;
+  }
+
+
 
   /// Get Running Package Info List of wasanbon server
   Future<List<PackageInfo>> getRunningPackageInfos() {
@@ -129,43 +174,9 @@ class AdminFunction extends WasanbonRPCBase {
   }
 
 
-  Future<List<PackageRepositoryInfo>> getPackageRepositories() {
-    var completer = new Completer();
-    rpc('package_repositories', [])
-    .then((result) {
-      List<PackageRepositoryInfo> infoList = new List<PackageRepositoryInfo>();
-      yaml.YamlMap map = yaml.loadYaml(result[1]);
-      map.keys.forEach((key) {
-        infoList.add(new PackageRepositoryInfo(key, map[key]));
-      });
-      infoList.sort((PackageRepositoryInfo a, PackageRepositoryInfo b) => a.name.compareTo(b.name));
 
-      completer.complete(infoList);
-    })
-    .catchError((error) => completer.completeError(error));
 
-    return completer.future;
-  }
 
-  Future<String> deletePackage(pkg) {
-    var completer = new Completer();
-    rpc('delete_package', [pkg])
-    .then((result) {
-      completer.complete(result);
-    })
-    .catchError((error) => completer.completeError(error));
 
-    return completer.future;
-  }
 
-  Future<String> clonePackage(pkg) {
-    var completer = new Completer();
-    rpc('clone_package', [pkg])
-    .then((result) {
-      completer.complete(result);
-    })
-    .catchError((error) => completer.completeError(error));
-
-    return completer.future;
-  }
 }

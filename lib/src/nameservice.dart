@@ -742,7 +742,6 @@ class NameServiceFunction extends WasanbonRPCBase {
     })
     .catchError((error) => completer.completeError(error));
 
-
     return completer.future;
   }
 
@@ -776,6 +775,7 @@ class NameServiceFunction extends WasanbonRPCBase {
     return completer.future;
   }
 
+  /// Exit RTC.
   Future<String> exitRTC(fullPath) {
     var completer = new Completer();
     rpc('exit_rtc', [fullPath])
@@ -786,7 +786,8 @@ class NameServiceFunction extends WasanbonRPCBase {
     return completer.future;
   }
 
-  Future<String> configureRTC(fullPath, confSetName, confName, confValue) {
+  /// Configure RTC
+  Future<String> configureRTC(String fullPath, String confSetName, String confName, String confValue) {
     var completer = new Completer();
     rpc('configure_rtc', [fullPath, confSetName, confName, confValue])
     .then((result) {
