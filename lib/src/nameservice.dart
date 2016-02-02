@@ -702,7 +702,7 @@ class NameServiceFunction extends WasanbonRPCBase {
 
   Future<String> startNameService(int port) {
     var completer = new Completer();
-    rpc('start_name_service', [port])
+    rpc('nameservice_start', [port])
     .then((result) {
       completer.complete(result[1].toString());
     })
@@ -713,7 +713,7 @@ class NameServiceFunction extends WasanbonRPCBase {
 
   Future<String> stopNameService(int port) {
     var completer = new Completer();
-    rpc('stop_name_service', [port])
+    rpc('nameservice_stop', [port])
     .then((result) {
       completer.complete(result[1].toString());
     })
@@ -724,7 +724,7 @@ class NameServiceFunction extends WasanbonRPCBase {
 
   Future<bool> checkNameService() {
     var completer = new Completer();
-    rpc('check_name_service', [])
+    rpc('nameservice_check_running', [])
     .then((result) {
       completer.complete(result[1].indexOf('Not Running') >= 0 ? false : true);
     })
@@ -735,7 +735,7 @@ class NameServiceFunction extends WasanbonRPCBase {
 
   Future<NameServerInfo> treeNameService({String host: 'localhost', int port: 2809}) {
     var completer = new Completer();
-    rpc('tree_name_service_ex', [host, port])
+    rpc('nameservice_tree', [host, port])
     .then((result) {
       print(result[1]);
       completer.complete(new NameServerInfo(yaml.loadYaml(result[1])));
@@ -747,7 +747,7 @@ class NameServiceFunction extends WasanbonRPCBase {
 
   Future<String> activateRTC(fullPath) {
     var completer = new Completer();
-    rpc('activate_rtc', [fullPath])
+    rpc('nameservice_activate_rtc', [fullPath])
     .then((result) {
       completer.complete(result[1]);
     })
@@ -757,7 +757,7 @@ class NameServiceFunction extends WasanbonRPCBase {
 
   Future<String> deactivateRTC(fullPath) {
     var completer = new Completer();
-    rpc('deactivate_rtc', [fullPath])
+    rpc('nameservice_deactivate_rtc', [fullPath])
     .then((result) {
       completer.complete(result[1]);
     })
@@ -767,7 +767,7 @@ class NameServiceFunction extends WasanbonRPCBase {
 
   Future<String> resetRTC(fullPath) {
     var completer = new Completer();
-    rpc('reset_rtc', [fullPath])
+    rpc('nameservice_reset_rtc', [fullPath])
     .then((result) {
       completer.complete(result[1]);
     })
@@ -778,7 +778,7 @@ class NameServiceFunction extends WasanbonRPCBase {
   /// Exit RTC.
   Future<String> exitRTC(fullPath) {
     var completer = new Completer();
-    rpc('exit_rtc', [fullPath])
+    rpc('nameservice_exit_rtc', [fullPath])
         .then((result) {
       completer.complete(result[1]);
     })
@@ -789,7 +789,7 @@ class NameServiceFunction extends WasanbonRPCBase {
   /// Configure RTC
   Future<String> configureRTC(String fullPath, String confSetName, String confName, String confValue) {
     var completer = new Completer();
-    rpc('configure_rtc', [fullPath, confSetName, confName, confValue])
+    rpc('nameservice_configure_rtc', [fullPath, confSetName, confName, confValue])
     .then((result) {
       completer.complete(result[1]);
     })
@@ -806,7 +806,7 @@ class NameServiceFunction extends WasanbonRPCBase {
     }
     arg = arg.substring(1);
     List<ConnectablePortPair> list = [];
-    rpc('list_connectable_pairs', [arg])
+    rpc('nameservice_list_connectable_pairs', [arg])
     .then((result) {
       String value = result[1].trim();
       RegExp reg = new RegExp(r'\r\n|\r|\n', multiLine : true);
@@ -825,7 +825,7 @@ class NameServiceFunction extends WasanbonRPCBase {
 
   Future<bool> connectPorts(ConnectablePortPair pair, {String param : ""}) {
     var completer = new Completer();
-    rpc('connect_ports', [pair.ports[0], pair.ports[1], param])
+    rpc('nameservice_connect_ports', [pair.ports[0], pair.ports[1], param])
     .then((result) {
       completer.complete(result[1]);
     })
@@ -835,7 +835,7 @@ class NameServiceFunction extends WasanbonRPCBase {
 
   Future<bool> disconnectPorts(ConnectablePortPair pair) {
     var completer = new Completer();
-    rpc('disconnect_ports', [pair.ports[0], pair.ports[1]])
+    rpc('nameservice_disconnect_ports', [pair.ports[0], pair.ports[1]])
     .then((result) {
       print(result);
       completer.complete(result[1]);

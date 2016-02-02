@@ -33,11 +33,11 @@ class PackageFunction extends WasanbonRPCBase {
   Future<xml.XmlDocument> getRTCProfile(String packageName, String rtcName) {
     var completer = new Completer();
     rpc('rtc_profile', [packageName, rtcName])
-    .then((result) {
+        .then((result) {
       xml.XmlDocument elem = xml.parse(result[1].toString());//XmlElement(result[1]);
       completer.complete(elem);
     })
-    .catchError((error) => completer.completeError(error));
+        .catchError((error) => completer.completeError(error));
 
     return completer.future;
   }
@@ -47,7 +47,7 @@ class PackageFunction extends WasanbonRPCBase {
   Future<List<RtcInfo>> getRtcInfos(String packageName) {
     var completer = new Completer();
     rpc('rtc_list', [packageName])
-    .then((result) {
+        .then((result) {
       yaml.YamlMap res = yaml.loadYaml(result[1]);
       var rtcs = [];
       for(String name in res.keys) {
@@ -57,7 +57,7 @@ class PackageFunction extends WasanbonRPCBase {
 
       completer.complete(rtcs);
     })
-    .catchError((error) => completer.completeError(error));
+        .catchError((error) => completer.completeError(error));
 
     return completer.future;
   }
@@ -66,7 +66,7 @@ class PackageFunction extends WasanbonRPCBase {
   Future<List<SystemInfo>> getSystemInfos(String packageName) {
     var completer = new Completer();
     rpc('system_list', [packageName])
-    .then((result) {
+        .then((result) {
       yaml.YamlMap res = yaml.loadYaml(result[1]);
       var syss = [];
       for(String name in res.keys) {
@@ -75,7 +75,7 @@ class PackageFunction extends WasanbonRPCBase {
       syss.sort((SystemInfo a, SystemInfo b) => a.name.compareTo(b.name));
       completer.complete(syss);
     })
-    .catchError((error) => completer.completeError(error));
+        .catchError((error) => completer.completeError(error));
 
     return completer.future;
   }
@@ -83,7 +83,7 @@ class PackageFunction extends WasanbonRPCBase {
   Future<List<RTCConfInfo>> getRTCConfList(String packageName) {
     var completer = new Completer();
     rpc('rtcconf_list', [packageName])
-    .then((result) {
+        .then((result) {
 
       var map = yaml.loadYaml(result[1]);
       var infoMap = new List<RTCConfInfo>();
@@ -92,7 +92,7 @@ class PackageFunction extends WasanbonRPCBase {
       }
       completer.complete(infoMap);
     })
-    .catchError((error) => completer.completeError(error));
+        .catchError((error) => completer.completeError(error));
 
     return completer.future;
   }
@@ -100,11 +100,11 @@ class PackageFunction extends WasanbonRPCBase {
   Future<xml.XmlDocument> getRTSProfile(String packageName, String rtsName) {
     var completer = new Completer();
     rpc('rts_profile', [packageName, rtsName])
-    .then((result) {
+        .then((result) {
       xml.XmlDocument elem = xml.parse(result[1].toString());//XmlElement(result[1]);
       completer.complete(elem);
     })
-    .catchError((error) => completer.completeError(error));
+        .catchError((error) => completer.completeError(error));
 
     return completer.future;
   }
@@ -112,10 +112,10 @@ class PackageFunction extends WasanbonRPCBase {
   Future<String> saveRTSProfile(String packageName, String rtsName, String content) {
     var completer = new Completer();
     rpc('system_update', [packageName, rtsName, content])
-    .then((result) {
+        .then((result) {
       completer.complete(result[1]);
     })
-    .catchError((error) => completer.completeError(error));
+        .catchError((error) => completer.completeError(error));
 
     return completer.future;
   }
@@ -123,10 +123,10 @@ class PackageFunction extends WasanbonRPCBase {
   Future<String> saveRTCProfile(String packageName, String rtcName, String content) {
     var completer = new Completer();
     rpc('rtcprofile_update', [packageName, rtcName, content])
-    .then((result) {
+        .then((result) {
       completer.complete(result[1]);
     })
-    .catchError((error) => completer.completeError(error));
+        .catchError((error) => completer.completeError(error));
 
     return completer.future;
   }
@@ -135,10 +135,10 @@ class PackageFunction extends WasanbonRPCBase {
   Future<String> updateRTCProfile(String packageName, String rtcName) {
     var completer = new Completer();
     rpc('rtcprofile_sync', [packageName, rtcName])
-    .then((result) {
+        .then((result) {
       completer.complete(result[1]);
     })
-    .catchError((error) => completer.completeError(error));
+        .catchError((error) => completer.completeError(error));
 
     return completer.future;
   }
@@ -146,10 +146,10 @@ class PackageFunction extends WasanbonRPCBase {
   Future<String> copyRTSProfile(String packageName, String rtsName, String dstName) {
     var completer = new Completer();
     rpc('system_copy', [packageName, rtsName, dstName])
-    .then((result) {
+        .then((result) {
       completer.complete(result[1]);
     })
-    .catchError((error) => completer.completeError(error));
+        .catchError((error) => completer.completeError(error));
 
     return completer.future;
   }
@@ -157,10 +157,10 @@ class PackageFunction extends WasanbonRPCBase {
   Future<String> deleteRTSProfile(String packageName, String rtsName) {
     var completer = new Completer();
     rpc('system_delete', [packageName, rtsName])
-    .then((result) {
+        .then((result) {
       completer.complete(result[1]);
     })
-    .catchError((error) => completer.completeError(error));
+        .catchError((error) => completer.completeError(error));
 
     return completer.future;
   }
@@ -170,7 +170,7 @@ class PackageFunction extends WasanbonRPCBase {
   Future<List<RtcRepositoryInfo>> listRtcRepositories(pkg) {
     var completer = new Completer();
     rpc('rtc_repositories', [pkg])
-    .then((result) {
+        .then((result) {
       List<RtcRepositoryInfo> infoList = new List<RtcRepositoryInfo>();
       yaml.YamlMap map = yaml.loadYaml(result[1]);
       map.keys.forEach((key) {
@@ -179,8 +179,8 @@ class PackageFunction extends WasanbonRPCBase {
       infoList.sort((a, b) => a.name.compareTo(b.name));
       completer.complete(infoList);
     })
-    .catchError((error) =>
-    completer.completeError(error)
+        .catchError((error) =>
+        completer.completeError(error)
     );
 
     return completer.future;
@@ -189,11 +189,11 @@ class PackageFunction extends WasanbonRPCBase {
   Future<String> pullRtcRepository(pkg, rtc) {
     var completer = new Completer();
     rpc('rtc_repository_pull', [pkg, rtc])
-    .then((result) {
+        .then((result) {
       completer.complete(result[1]);
     })
-    .catchError((error) =>
-    completer.completeError(error)
+        .catchError((error) =>
+        completer.completeError(error)
     );
 
     return completer.future;
@@ -202,11 +202,11 @@ class PackageFunction extends WasanbonRPCBase {
   Future<String> pushRtcRepository(pkg, rtc) {
     var completer = new Completer();
     rpc('rtc_repository_push', [pkg, rtc])
-    .then((result) {
+        .then((result) {
       completer.complete(result[1]);
     })
-    .catchError((error) =>
-    completer.completeError(error)
+        .catchError((error) =>
+        completer.completeError(error)
     );
 
     return completer.future;
@@ -215,11 +215,11 @@ class PackageFunction extends WasanbonRPCBase {
   Future<String> commitRtcRepository(pkg, rtc, comment) {
     var completer = new Completer();
     rpc('rtc_repository_commit', [pkg, rtc, comment])
-    .then((result) {
+        .then((result) {
       completer.complete(result[1]);
     })
-    .catchError((error) =>
-    completer.completeError(error)
+        .catchError((error) =>
+        completer.completeError(error)
     );
 
     return completer.future;

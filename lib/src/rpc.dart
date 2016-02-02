@@ -10,7 +10,7 @@ import 'package:xml/xml.dart' as xml;
 import 'admin.dart';
 import 'nameservice.dart';
 import 'rtc.dart';
-import 'package.dart';
+import 'mgrRtc.dart';
 import 'system.dart';
 import 'misc.dart';
 import 'files.dart';
@@ -22,7 +22,7 @@ class WasanbonRPC {
   NameServiceFunction nameService;
   RtcFunction rtc;
   SystemFunction system;
-  PackageFunction package;
+  MgrRtcFunction mgrRtc;
   MiscFunction misc;
   FilesFunction files;
   ProcessesFunction processes;
@@ -32,7 +32,7 @@ class WasanbonRPC {
     nameService = new NameServiceFunction(url: url, client: client);
     rtc = new RtcFunction(url: url, client: client);
     system = new SystemFunction(url: url, client: client);
-    package = new PackageFunction(url: url, client: client);
+    mgrRtc = new MgrRtcFunction(url: url, client: client);
     misc = new MiscFunction(url:url, client: client);
     files = new FilesFunction(url:url, client:client);
     processes = new ProcessesFunction(url:url, client:client);

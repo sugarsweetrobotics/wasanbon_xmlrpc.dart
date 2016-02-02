@@ -4,6 +4,7 @@
 library wasanbon_xmlrpc.test;
 
 import 'files_test.dart';
+import 'mgrRtc_test.dart';
 import 'processes_test.dart';
 import 'admin_test.dart';
 import 'misc_test.dart';
@@ -13,4 +14,5 @@ main() {
   admin_test();
   processes_test();
   files_test();
+  mgrRtc_test();
 }

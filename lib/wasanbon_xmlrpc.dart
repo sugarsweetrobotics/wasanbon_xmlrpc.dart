@@ -12,7 +12,7 @@ export 'src/rpc.dart';
 export 'src/base.dart';
 export 'src/nameservice.dart';
 export 'src/rtc.dart';
-export 'src/package.dart';
+export 'src/mgrRtc.dart';
 export 'src/system.dart';
 export 'src/admin.dart';
 export 'src/files.dart';
