@@ -12,8 +12,8 @@ class VersionInfo {
   var version = "0.0";
   var platform = "none";
   VersionInfo(result) {
-    this.version = result[1]['wasanbon'];
-    this.platform = result[1]['platform'];
+    this.version = result['version'];
+    this.platform = result['platform'];
   }
 
   String toString() {
@@ -31,20 +31,33 @@ class MiscFunction extends WasanbonRPCBase {
 
   }
 
+  /// Echo function for test
   Future<String> echo(String code) {
+    print('${this.runtimeType}.echo($code)');
     var completer = new Completer();
     rpc('misc_echo', [code]).then((result) {
-      completer.complete(result[1].toString());
-    }).catchError((error) => completer.completeError(error));
+      print(' - $result');
+      if (result[0]) completer.complete(result[2]);
+      else completer.complete(null);
+    }).catchError((error) {
+      print(' - $error');
+      completer.completeError(error);
+    });
     return completer.future;
   }
 
   /// Get Version Infomation of wasanbon server
-  Future<VersionInfo> getVersionInfo() {
+  Future<VersionInfo> version() {
+    print('${this.runtimeType}.version()');
     var completer = new Completer();
-    rpc('misc_version', [])
-        .then((result) => completer.complete(new VersionInfo(result)))
-        .catchError((error) => completer.completeError(error));
+    rpc('misc_version', []).then((result) {
+      print(' - $result');
+      if (result[0]) completer.complete(new VersionInfo(result[2]));
+      else completer.complete(null);
+    }).catchError((error) {
+      print(' - $error');
+      completer.completeError(error);
+    });
     return completer.future;
   }
 

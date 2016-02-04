@@ -8,6 +8,10 @@ import 'package:unittest/unittest.dart' as test;
 import 'package:wasanbon_xmlrpc/wasanbon_xmlrpc.dart';
 
 
+main() {
+  misc_test();
+}
+
 misc_test() {
   test.group('Misc tests', () {
     WasanbonRPC rpc;
@@ -21,10 +25,21 @@ misc_test() {
       var yahoo = 'Hello';
       Future f = rpc.misc.echo(yahoo).then( (var msg) {
         print('msg is $msg');
-        //test.expect(yahoo == msg, test.isTrue);
+        test.expect(yahoo == msg, test.isTrue);
       }).catchError((dat) {
+        print(dat);
         test.fail('Exception occured in Echo test');
-        //print(dat);
+      });
+      test.expect(f, test.completes);
+    });
+
+    test.test('Version Test', () async {
+      Future f = rpc.misc.version().then( (VersionInfo v) {
+        print('Version if $v');
+        test.expect(v != null, test.isTrue);
+      }).catchError((dat) {
+        print(dat);
+        test.fail('Exception occured in Version test');
       });
       test.expect(f, test.completes);
     });
