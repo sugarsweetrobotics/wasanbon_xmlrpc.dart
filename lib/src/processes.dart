@@ -9,6 +9,15 @@ import 'dart:async';
 import 'package:http/http.dart' as http;
 
 
+class Process {
+  String name;
+  int id;
+
+  Process(this.name, this.id) {}
+
+}
+
+
 class ProcessesFunction extends WasanbonRPCBase {
 
   ProcessesFunction(
@@ -17,40 +26,21 @@ class ProcessesFunction extends WasanbonRPCBase {
 
   }
 
-  Future<bool> run(String filename, {List<String> args : null }) {
+  Future<Process> run(String filename, {List<String> args : null }) {
     if (args == null) args = [];
 
+
+    print('${this.runtimeType}.run($filename, ${args})');
     var completer = new Completer();
     rpc('processes_run', [filename, args]).then((result) {
-      completer.complete(result[0]);
-    }).catchError((error) => completer.completeError(error));
+      print(' - $result');
+      if (result[0]) completer.complete(new Process(result[2][0], result[2][1]));
+      else completer.complete(null);
+    }).catchError((error) {
+    print(' - $error');
+      completer.completeError(error);
+    });
     return completer.future;
   }
-
-  /*
-  Future<String> killCode(String filename) {
-    var completer = new Completer();
-    rpc('misc_kill_code', []).then((result) {
-      completer.complete(result[1].toString());
-    }).catchError((error) => completer.completeError(error));
-    return completer.future;
-  }
-
-  Future<String> readStdout() {
-    var completer = new Completer();
-    rpc('misc_read_stdout', []).then((result) {
-      completer.complete(result[1].toString());
-    }).catchError((error) => completer.completeError(error));
-    return completer.future;
-  }
-
-  Future<String> communicate() {
-    var completer = new Completer();
-    rpc('misc_communicate', []).then((result) {
-      completer.complete(result[1].toString());
-    }).catchError((error) => completer.completeError(error));
-    return completer.future;
-  }
-  */
 
 }
