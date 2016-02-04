@@ -8,9 +8,11 @@ import 'package:unittest/unittest.dart' as test;
 import 'package:wasanbon_xmlrpc/wasanbon_xmlrpc.dart';
 
 
+main() {
+  files_test();
+}
+
 files_test() {
-
-
 
   test.group('Files Tests', () {
     WasanbonRPC rpc;
@@ -22,11 +24,11 @@ files_test() {
     /// ルートディレクトリのリスティングテスト
     test.test('List Directory Test', () async {
       var path = '/';
-      var f = rpc.files.listDirectory(path).then((var lst) {
-        print (lst);
-        test.expect(lst.length > 0, test.isTrue);
+      var f = rpc.files.listDirectory(path).then((List<String> paths) {
+        print (paths);
+        test.expect(paths.length > 0, test.isTrue);
       }).catchError((dat) {
-        test.fail('Exception occured in Test');
+        test.fail('Exception occured in Test of Listing');
         print(dat);
       });
       test.expect(f, test.completes);
@@ -35,9 +37,9 @@ files_test() {
     /// カレントディレクトリ変更テスト
     test.test('Change Directory Test', () async {
       var path = '.';
-      var f = rpc.files.changeDirectory(path).then((var pwd) {
-        print('Change dir . is $pwd');
-        test.expect(pwd.length > 0, test.isTrue);
+      var f = rpc.files.changeDirectory(path).then((String new_path) {
+        print('Change dir . is $new_path');
+        test.expect(new_path.length > 0, test.isTrue);
       }).catchError((dat) {
         test.fail('Exception occured in Test');
         print(dat);
@@ -48,9 +50,9 @@ files_test() {
 
     /// カレントディレクトリ取得テスト
     test.test('Print Current Directory Test', () async {
-      test.expect(rpc.files.printWorkingDirectory().then((var pwd) {
-        print('Current dir is $pwd');
-        test.expect(pwd.length > 0, test.isTrue);
+      test.expect(rpc.files.printWorkingDirectory().then((String path) {
+        print('Current dir is ${path}');
+        test.expect(path.length > 0, test.isTrue);
       }).catchError((dat) {
         test.fail('Exception occured in Test');
         print(dat);
@@ -58,37 +60,38 @@ files_test() {
     });
 
 
+    /// ファイル保存テスト
     test.test('Save File Test', () async {
       var filename = 'test_file_name.txt';
       var content = 'This is test file for wasanbon_rpc';
 
       /// ファイル保存テスト
-      test.expect(rpc.files.uploadFile(filename, content).then((var ret) {
+      test.expect(rpc.files.uploadFile(filename, content).then((String ret) {
         print('Saved File $filename is $ret');
-        test.expect(ret, test.isTrue);
+        test.expect(ret == filename, test.isTrue);
 
         /// ファイル内容確認
-        test.expect(rpc.files.downloadFile(filename).then((var ret) {
+        test.expect(rpc.files.downloadFile(filename).then((String ret) {
           print('File content is $ret');
           test.expect(ret == content, test.isTrue);
 
           /// ファイルの除去
-          test.expect(rpc.files.deleteFile(filename).then((var ret) {
+          test.expect(rpc.files.deleteFile(filename).then((String ret) {
             print('File remove is $ret');
-            test.expect(ret, test.isTrue);
+            test.expect(ret == filename, test.isTrue);
           }).catchError((dat) {
-            test.fail('Exception occured in File content verification.');
+            test.fail('Exception occured in Removing file.');
             print(dat);
           }), test.completes);
 
         }).catchError((dat) {
-          test.fail('Exception occured in Removing file. ');
+          test.fail('Exception occured in File content verification. ');
           print(dat);
         }), test.completes);
 
       }).catchError((dat) {
-        test.fail('Exception occured in Test');
         print(dat);
+        test.fail('Exception occured in Test uploadFile');
       }), test.completes);
 
     });

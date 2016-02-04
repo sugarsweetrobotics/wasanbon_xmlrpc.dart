@@ -60,6 +60,15 @@ class RtcRepositoryInfo {
   
 }
 
+
+class WasanbonReturnValue {
+  bool success;
+  String message;
+  var object;
+  WasanbonReturnValue(this.success, this.message, this.object);
+}
+
+
 class WasanbonRPCBase {
   String url = "RPC";
   http.Client client = null;
