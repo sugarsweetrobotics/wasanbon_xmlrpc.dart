@@ -43,4 +43,18 @@ class ProcessesFunction extends WasanbonRPCBase {
     return completer.future;
   }
 
+  Future<Process> kill(Process p) {
+    print('${this.runtimeType}.kill($p)');
+    var completer = new Completer();
+    rpc('processes_killl', [p.id]).then((result) {
+      print(' - $result');
+      if (result[0]) completer.complete(new Process(p.name, result[2]));
+      else completer.complete(null);
+    }).catchError((error) {
+      print(' - $error');
+      completer.completeError(error);
+    });
+    return completer.future;
+  }
+
 }

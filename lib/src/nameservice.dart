@@ -7,6 +7,7 @@ import 'dart:collection';
 import 'package:http/http.dart' as http;
 import 'package:xml_rpc/client.dart' as xmlrpc;
 import 'package:yaml/yaml.dart' as yaml;
+import 'processes.dart';
 
 
 class Node {
@@ -51,6 +52,7 @@ class Node {
         }
       }
     }
+    return null;
   }
 
   String toString() {
@@ -406,6 +408,10 @@ class PortList extends Node with ListMixin<PortBase> {
  */
 class Component extends Node {
 
+  static String ACTIVE_STATE = 'Active';
+  static String INACTIVE_STATE = 'Inactive';
+  static String ERROR_STATE = 'Error';
+
   PortList inPorts;
   PortList outPorts;
   PortList servicePorts;
@@ -700,68 +706,90 @@ class NameServiceFunction extends WasanbonRPCBase {
 
   }
 
-  Future<String> startNameService(int port) {
+  Future<Process> start(int port) {
+    print('${this.runtimeType}.start($port)');
     var completer = new Completer();
-    rpc('nameservice_start', [port])
-    .then((result) {
-      completer.complete(result[1].toString());
-    })
-    .catchError((error) => completer.completeError(error));
-
+    rpc('nameservice_start', [port]).then((result) {
+      print(' - $result');
+      if (result[0]) completer.complete(new Process('omniNames', 0));
+      else completer.complete(null);
+    }).catchError((error) {
+      print(' - $error');
+      completer.completeError(error);
+    });
     return completer.future;
   }
 
-  Future<String> stopNameService(int port) {
+  Future<Process> stop(int port) {
+    print('${this.runtimeType}.stop($port)');
     var completer = new Completer();
-    rpc('nameservice_stop', [port])
-    .then((result) {
-      completer.complete(result[1].toString());
-    })
-    .catchError((error) => completer.completeError(error));
-
+    rpc('nameservice_stop', [port]).then((result) {
+      print(' - $result');
+      if (result[0]) completer.complete(new Process('omniNames', 0));
+      else completer.complete(null);
+    }).catchError((error) {
+      print(' - $error');
+      completer.completeError(error);
+    });
     return completer.future;
   }
 
-  Future<bool> checkNameService() {
+  Future<bool> checkRunning(int port) {
+    print('${this.runtimeType}.check_running($port)');
     var completer = new Completer();
-    rpc('nameservice_check_running', [])
-    .then((result) {
-      completer.complete(result[1].indexOf('Not Running') >= 0 ? false : true);
-    })
-    .catchError((error) => completer.completeError(error));
-
+    rpc('nameservice_check_running', [port]).then((result) {
+      print(' - $result');
+      if (result[0]) completer.complete(result[2]);
+      else completer.complete(null);
+    }).catchError((error) {
+      print(' - $error');
+      completer.completeError(error);
+    });
     return completer.future;
   }
 
-  Future<NameServerInfo> treeNameService({String host: 'localhost', int port: 2809}) {
+  Future<NameServerInfo> tree({String host: 'localhost', int port: 2809}) {
     var completer = new Completer();
     rpc('nameservice_tree', [host, port])
     .then((result) {
-      print(result[1]);
-      completer.complete(new NameServerInfo(yaml.loadYaml(result[1])));
+      print(result[2]);
+      completer.complete(new NameServerInfo(yaml.loadYaml(result[2])));
     })
     .catchError((error) => completer.completeError(error));
 
     return completer.future;
   }
 
+
+  /// Activate RTC
+  /// return: fullpath to RTC ativated. null if failed.
   Future<String> activateRTC(fullPath) {
+    print('${this.runtimeType}.activateRTC($fullPath)');
     var completer = new Completer();
-    rpc('nameservice_activate_rtc', [fullPath])
-    .then((result) {
-      completer.complete(result[1]);
-    })
-    .catchError((error) => completer.completeError(error));
+    rpc('nameservice_activate_rtc', [fullPath]).then((result) {
+      print(' - $result');
+      if (result[0]) completer.complete(result[2]);
+      else completer.complete(null);
+    }).catchError((error) {
+      print(' - $error');
+      completer.completeError(error);
+    });
+
     return completer.future;
   }
 
   Future<String> deactivateRTC(fullPath) {
+    print('${this.runtimeType}.activateRTC($fullPath)');
     var completer = new Completer();
-    rpc('nameservice_deactivate_rtc', [fullPath])
-    .then((result) {
-      completer.complete(result[1]);
-    })
-    .catchError((error) => completer.completeError(error));
+    rpc('nameservice_deactivate_rtc', [fullPath]).then((result) {
+      print(' - $result');
+      if (result[0]) completer.complete(result[2]);
+      else completer.complete(null);
+    }).catchError((error) {
+      print(' - $error');
+      completer.completeError(error);
+    });
+
     return completer.future;
   }
 

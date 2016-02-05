@@ -20,28 +20,32 @@ misc_test() {
       rpc = new WasanbonRPC(url: "http://localhost:8000/RPC");
     });
 
+
     /// エコーバックテスト
     test.test('Echo Test', () async {
+      var completer = new Completer();
       var yahoo = 'Hello';
-      Future f = rpc.misc.echo(yahoo).then( (var msg) {
+      Future f = rpc.misc.echo(yahoo);
+      f.then( (var msg) {
         print('msg is $msg');
         test.expect(yahoo == msg, test.isTrue);
       }).catchError((dat) {
         print(dat);
         test.fail('Exception occured in Echo test');
       });
-      test.expect(f, test.completes);
+      return f;
     });
 
     test.test('Version Test', () async {
-      Future f = rpc.misc.version().then( (VersionInfo v) {
+      Future f = rpc.misc.version();
+      f.then( (VersionInfo v) {
         print('Version if $v');
         test.expect(v != null, test.isTrue);
       }).catchError((dat) {
         print(dat);
         test.fail('Exception occured in Version test');
       });
-      test.expect(f, test.completes);
+      return f;
     });
   });
 }

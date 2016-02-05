@@ -7,7 +7,9 @@ import 'dart:async';
 import 'package:unittest/unittest.dart' as test;
 import 'package:wasanbon_xmlrpc/wasanbon_xmlrpc.dart';
 
-
+main () {
+  processes_test();
+}
 processes_test() {
 
   /// プロセス管理テスト
@@ -18,14 +20,14 @@ processes_test() {
       rpc = new WasanbonRPC(url: "http://localhost:8000/RPC");
     });
 
-    test.test('Save file test', () async {
+    test.test('Python script run test', () async {
       var filename = 'test_file_name.py';
       var content = 'print "Hello World. This is Python script"';
 
       /// Pythonスクリプトを送信
       test.expect(rpc.files.uploadFile(filename, content).then((var ret) {
         print('Saved File $filename is $ret');
-        test.expect(ret, test.isTrue);
+        test.expect(ret == filename, test.isTrue);
 
         /// Pythonスクリプトの内容確認
         test.expect(rpc.files.downloadFile(filename).then((var ret) {
@@ -35,21 +37,19 @@ processes_test() {
           /// Pythonスクリプトの実行
           test.expect(rpc.processes.run(filename).then((var ret) {
             print('Process Run is $ret');
-            test.expect(ret, test.isTrue);
+            test.expect(ret != null, test.isTrue);
 
             /// Pythonスクリプトの除去
             test.expect(rpc.files.deleteFile(filename).then((var ret) {
               print('File remove is $ret');
-              test.expect(ret, test.isTrue);
+              test.expect(ret == filename, test.isTrue);
             }).catchError((dat) {
               test.fail('Exception occured in removing Script');
               print(dat);
             }), test.completes);
-
-
           }).catchError((dat) {
-            test.fail('Exception occured in processes_run ');
             print(dat);
+            test.fail('Exception occured in processes_run ');
           }), test.completes);
 
         }).catchError((dat) {
