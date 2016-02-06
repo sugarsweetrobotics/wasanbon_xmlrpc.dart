@@ -1,7 +1,7 @@
 // Copyright (c) 2015, <your name>. All rights reserved. Use of this source code
 // is governed by a BSD-style license that can be found in the LICENSE file.
 
-library wasanbon_xmlrpc.test.misc_test;
+library wasanbon_xmlrpc.test.nameservice_test;
 
 import 'dart:async';
 import 'dart:io';
@@ -131,6 +131,10 @@ nameservice_test() {
       int port = 2809;
       var filename = 'TestRTC.py';
       var content = test_script;
+      var confSetName = 'default';
+      var confName = 'debug';
+      var confValue = '3134';
+      Component rtc;
 
       Future f = rpc.nameService.stop(port).then((Process p) {
         test.expect(p != null, test.isTrue);
@@ -159,9 +163,10 @@ nameservice_test() {
           print('Waiting for Start and Register RT-component(${count - i}/$count)');
           sleep(const Duration(seconds: 1));
         }
+        /// 実行確認をツリーで
         return rpc.nameService.tree(port: port);
       }).then((NameServerInfo nss) {
-        Component rtc = null;
+        rtc = null;
         nss.nameServers.forEach((NameService ns) {
           ns.components.forEach((Component c) {
             if (c.name == 'TestRTC0.rtc') {
@@ -172,14 +177,112 @@ nameservice_test() {
 
         test.expect(
             rtc != null, test.isTrue, reason: 'RTC(TestRTC0.rtc) not found');
+
+        /// 接続可能なペアをリストアップ
+        return rpc.nameService.listConnectablePairs(['localhost:2809']);
+      }).then((List<ConnectablePortPair> pairs) {
+        test.expect(pairs.length > 0, test.isTrue,
+            reason: 'Connectable Pair not found');
+
+        // ポートを接続
+        return rpc.nameService.connectPorts(pairs[0]);
+      }).then((bool b) {
+
+        /// 実行確認をツリーで
+        return rpc.nameService.listConnectablePairs(['localhost:2809']);
+      }).then((List<ConnectablePortPair> pairs) {
+        test.expect(pairs.length > 0, test.isTrue,
+            reason: 'Connectable Pair not found');
+
+        test.expect(pairs[0].connected, test.isTrue);
+
+        // ポートを切断
+        return rpc.nameService.disconnectPorts(pairs[0]);
+      }).then((bool b) {
+
+        /// 実行確認をペアで
+        return rpc.nameService.listConnectablePairs(['localhost:2809']);
+      }).then((List<ConnectablePortPair> pairs) {
+        test.expect(pairs.length > 0, test.isTrue,
+            reason: 'Connectable Pair not found');
+
+        test.expect(!pairs[0].connected, test.isTrue);
+
+        print('--- Starting Configuration Test.');
+        /// コンフィグレーションをまず確認
+        return rpc.nameService.tree(port: port);
+      }).then((NameServerInfo nss) {
+        rtc = null;
+        nss.nameServers.forEach((NameService ns) {
+          ns.components.forEach((Component c) {
+            if (c.name == 'TestRTC0.rtc') {
+              rtc = c;
+            }
+          });
+        });
+
+        test.expect(
+            rtc != null, test.isTrue, reason: 'RTC(TestRTC0.rtc) not found');
+
+
+        ConfigurationSet cset = rtc.configurationSets.get(confSetName);
+        if (cset == null) {
+          test.fail('Configuration ${rtc.full_path}.$confSetName can not be found.');
+        }
+
+        Configuration c = cset.get(confName);
+        if (c == null) {
+          test.fail('Configuration ${rtc.full_path}.$confSetName.$confName can not be found.');
+        }
+
+
+        /// コンフィグレーション
+        return rpc.nameService.configureRTC(rtc.full_path, confSetName, confName, confValue);
+      }).then((bool flag) {
+
+
+        /// コンフィグレーションをまず確認
+        return rpc.nameService.tree(port: port);
+      }).then((NameServerInfo nss) {
+        rtc = null;
+        nss.nameServers.forEach((NameService ns) {
+          ns.components.forEach((Component c) {
+            if (c.name == 'TestRTC0.rtc') {
+              rtc = c;
+            }
+          });
+        });
+
+        test.expect(
+            rtc != null, test.isTrue, reason: 'RTC(TestRTC0.rtc) not found');
+
+
+        ConfigurationSet cset = rtc.configurationSets.get(confSetName);
+        if (cset == null) {
+          test.fail('Configuration ${rtc.full_path}.$confSetName.$confName can not be found.');
+        }
+
+        Configuration c = cset.get(confName);
+        if (c == null) {
+          test.fail('Configuration ${rtc.full_path}.$confSetName.$confName can not be found.');
+        }
+
+        test.expect(c.value == confValue, test.isTrue, reason: 'Can not configure');
+
+
+        /// アクティベート
         return rpc.nameService.activateRTC(rtc.full_path);
       }).then((String msg) {
+
+
+        /// まつ
         int count = 5;
         for (int i = 0; i < count; i++) {
-          print('Waiting for Process updated(${count - i}/$count)');
+          print('Waiting for RTC is activated.(${count - i}/$count)');
           sleep(const Duration(seconds: 1));
         }
 
+        /// アクティブか確認
         return rpc.nameService.tree(port: port);
       }).then((NameServerInfo nss) {
         Component rtc = null;
@@ -196,14 +299,19 @@ nameservice_test() {
         test.expect(rtc.state == Component.ACTIVE_STATE, test.isTrue,
             reason: 'RTC(TestRTC0.rtc) not activated');
 
+
+        /// ディアクティベート
         return rpc.nameService.deactivateRTC(rtc.full_path);
       }).then((String msg) {
+
+        // まつ
         int count = 5;
         for (int i = 0; i < count; i++) {
-          print('Waiting for Process updated(${count - i}/$count)');
+          print('Waiting for RTC is deactivated(${count - i}/$count)');
           sleep(const Duration(seconds: 1));
         }
 
+        /// インアクティブか確認
         return rpc.nameService.tree(port: port);
       }).then((NameServerInfo nss) {
         Component rtc = null;
@@ -220,7 +328,35 @@ nameservice_test() {
         test.expect(rtc.state == Component.INACTIVE_STATE, test.isTrue,
             reason: 'RTC(TestRTC0.rtc) not inactivated');
 
+        /// RTCを終了
         return rpc.nameService.exitRTC(rtc.full_path);
+      }).then((String path) {
+
+        // まつ
+        int count = 5;
+        for (int i = 0; i < count; i++) {
+          print('Waiting for RTC is exit(${count - i}/$count)');
+          sleep(const Duration(seconds: 1));
+        }
+
+
+        /// 終了したか確認
+        return rpc.nameService.tree(port: port);
+      }).then((NameServerInfo nss) {
+        Component rtc = null;
+        nss.nameServers.forEach((NameService ns) {
+          ns.components.forEach((Component c) {
+            if (c.name == 'TestRTC0.rtc') {
+              rtc = c;
+            }
+          });
+        });
+
+        test.expect(
+            rtc == null, test.isTrue, reason: 'RTC(TestRTC0.rtc) is found');
+
+        /// ネームサーバー終了
+        return rpc.nameService.stop(port);
       }).catchError((dat) {
         print(dat);
         test.fail('Exception occured in NameSErver & RTC Test.');

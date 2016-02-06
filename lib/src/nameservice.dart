@@ -106,12 +106,14 @@ class Properties extends Node {
 
 }
 
+/// コンフィグレーション
 class Configuration extends Node {
   Configuration(Node parent, String name, String value) : super(parent, name) {
     super.value = value;
   }
 }
 
+/// コンフィグレーションセット
 class ConfigurationSet extends Node with ListMixin<Configuration> {
   List<Configuration> list = [];
 
@@ -120,6 +122,17 @@ class ConfigurationSet extends Node with ListMixin<Configuration> {
   Configuration operator[](int index) => list[index];
   void operator[]=(int index, Configuration value) {list[index] = value;}
   void add(Configuration child) {list.add(child);}
+
+  Configuration get(String s) {
+    Configuration conf = null;
+    forEach((Configuration c) {
+      if (c.name == s) {
+        conf = c;
+      }
+    });
+
+    return conf;
+  }
 
   ConfigurationSet(Node parent, String name, yaml.YamlMap map) : super(parent, name) {
     for(String key in map.keys) {
@@ -159,6 +172,18 @@ class ConfigurationSetList extends Node with ListMixin<ConfigurationSet> {
   void operator[]=(int index, ConfigurationSet value) {list[index] = value;}
   void add(ConfigurationSet child) {list.add(child);}
 
+  ConfigurationSet get(String s) {
+    ConfigurationSet cset = null;
+    forEach((ConfigurationSet set) {
+      print ('parsing configuration set (name = ${set.name}');
+      if (set.name == s) {
+        cset = set;
+      }
+    });
+    return cset;
+  }
+
+
   String toString() {
     String str;
     str = "  " * getDepth() + name + ' : ';
@@ -191,7 +216,7 @@ class Connection extends Node {
   }
 
   Connection(Node parent, String name, yaml.YamlMap map) : super(parent, name) {
-    print('Connection ${name}');
+    /// print('Connection ${name}');
     for(String key in map.keys) {
       if (key == 'id') {
         this.id =  map[key];
@@ -622,7 +647,7 @@ class NameServiceList extends Node with ListMixin<NameService> {
  */
 class Manager extends Node {
   Manager(Node parent, String name, yaml.YamlMap map) : super(parent, name) {
-    print("Manager ${name}");
+    //print("Manager ${name}");
   }
 }
 
@@ -748,14 +773,15 @@ class NameServiceFunction extends WasanbonRPCBase {
     return completer.future;
   }
 
+  /// Name Server Tree
+  ///
   Future<NameServerInfo> tree({String host: 'localhost', int port: 2809}) {
     var completer = new Completer();
-    rpc('nameservice_tree', [host, port])
-    .then((result) {
-      print(result[2]);
-      completer.complete(new NameServerInfo(yaml.loadYaml(result[2])));
-    })
-    .catchError((error) => completer.completeError(error));
+    rpc('nameservice_tree', [host, port]).then((result) {
+      if (result[0]) completer.complete(new NameServerInfo(yaml.loadYaml(result[2])));
+      else completer.complete(null);
+
+    }).catchError((error) => completer.completeError(error));
 
     return completer.future;
   }
@@ -778,8 +804,9 @@ class NameServiceFunction extends WasanbonRPCBase {
     return completer.future;
   }
 
+  /// Deactivate RTC
   Future<String> deactivateRTC(fullPath) {
-    print('${this.runtimeType}.activateRTC($fullPath)');
+    print('${this.runtimeType}.deactivateRTC($fullPath)');
     var completer = new Completer();
     rpc('nameservice_deactivate_rtc', [fullPath]).then((result) {
       print(' - $result');
@@ -794,39 +821,53 @@ class NameServiceFunction extends WasanbonRPCBase {
   }
 
   Future<String> resetRTC(fullPath) {
+    print('${this.runtimeType}.resetRTC($fullPath)');
     var completer = new Completer();
-    rpc('nameservice_reset_rtc', [fullPath])
-    .then((result) {
-      completer.complete(result[1]);
-    })
-    .catchError((error) => completer.completeError(error));
+    rpc('nameservice_reset_rtc', [fullPath]).then((result) {
+      print(' - $result');
+      if (result[0]) completer.complete(result[2]);
+      else completer.complete(null);
+    }).catchError((error) {
+      print(' - $error');
+      completer.completeError(error);
+    } );
     return completer.future;
   }
 
   /// Exit RTC.
   Future<String> exitRTC(fullPath) {
+    print('${this.runtimeType}.exitRTC($fullPath)');
     var completer = new Completer();
-    rpc('nameservice_exit_rtc', [fullPath])
-        .then((result) {
-      completer.complete(result[1]);
-    })
-        .catchError((error) => completer.completeError(error));
+    rpc('nameservice_exit_rtc', [fullPath]).then((result) {
+      print(' - $result');
+      if (result[0]) completer.complete(result[2]);
+      else completer.complete(null);
+    }).catchError((error) {
+      print(' - $error');
+      completer.completeError(error);
+    } );
     return completer.future;
   }
 
   /// Configure RTC
-  Future<String> configureRTC(String fullPath, String confSetName, String confName, String confValue) {
+  Future<bool> configureRTC(String fullPath, String confSetName, String confName, String confValue) {
+    print('${this.runtimeType}.configureRTC($fullPath, $confSetName, $confName, $confValue)');
     var completer = new Completer();
     rpc('nameservice_configure_rtc', [fullPath, confSetName, confName, confValue])
     .then((result) {
-      completer.complete(result[1]);
-    })
-    .catchError((error) => completer.completeError(error));
+      print(' - $result');
+      if (result[0]) completer.complete(result[2]);
+      else completer.complete(null);
+    }).catchError((error) {
+      print(' - $error');
+      completer.completeError(error);
+    } );
     return completer.future;
   }
 
-
+  /// List Connectable Port Pairs.
   Future<List<ConnectablePortPair>> listConnectablePairs(List<String> nameServers) {
+    print('${this.runtimeType}.listConnectablePairs($nameServers)');
     var completer = new Completer();
     var arg = "";
     for(String ns in nameServers) {
@@ -834,9 +875,9 @@ class NameServiceFunction extends WasanbonRPCBase {
     }
     arg = arg.substring(1);
     List<ConnectablePortPair> list = [];
-    rpc('nameservice_list_connectable_pairs', [arg])
-    .then((result) {
-      String value = result[1].trim();
+    rpc('nameservice_list_connectable_pairs', [arg]).then((result) {
+      print(' - $result');
+      String value = result[2].trim();
       RegExp reg = new RegExp(r'\r\n|\r|\n', multiLine : true);
       var lines = value.trim().split(reg);
       for(String line in lines) {
@@ -845,30 +886,41 @@ class NameServiceFunction extends WasanbonRPCBase {
           list.add(new ConnectablePortPair(line.trim().split(reg)));
         }
       }
-      completer.complete(list);
-    })
-    .catchError((error) => completer.completeError(error));
+      if (result[0]) completer.complete(list);
+      else completer.complete(null);
+    }).catchError((error) {
+      print(' - $error');
+      completer.completeError(error);
+    } );
     return completer.future;
   }
 
   Future<bool> connectPorts(ConnectablePortPair pair, {String param : ""}) {
+    print('${this.runtimeType}.connectPorts($pair, $param)');
     var completer = new Completer();
-    rpc('nameservice_connect_ports', [pair.ports[0], pair.ports[1], param])
-    .then((result) {
-      completer.complete(result[1]);
-    })
-    .catchError((error) => completer.completeError(error));
+    rpc('nameservice_connect_ports', [pair.ports[0], pair.ports[1], param]).then((result) {
+      print(' - $result');
+      if (result[0]) completer.complete(result[2]);
+      else completer.complete(null);
+    }).catchError((error) {
+      print(' - $error');
+      completer.completeError(error);
+    } );
     return completer.future;
   }
 
   Future<bool> disconnectPorts(ConnectablePortPair pair) {
+    print('${this.runtimeType}.disconnectPorts($pair)');
     var completer = new Completer();
-    rpc('nameservice_disconnect_ports', [pair.ports[0], pair.ports[1]])
-    .then((result) {
-      print(result);
-      completer.complete(result[1]);
-    })
-    .catchError((error) => completer.completeError(error));
+    rpc('nameservice_disconnect_ports', [pair.ports[0], pair.ports[1]]).then((result) {
+      print(' - $result');
+      if (result[0]) completer.complete(result[2]);
+      else completer.complete(null);
+    }).catchError((error) {
+      print(' - $error');
+      completer.completeError(error);
+    } );
+
     return completer.future;
   }
 }

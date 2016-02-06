@@ -90,20 +90,22 @@ class AdminFunction extends WasanbonRPCBase {
 
   /// Get Package Repository List
   Future<List<PackageRepositoryInfo>> getPackageRepositoryList() {
+    print('${this.runtimeType}.getPackageRepositoryList()');
     var completer = new Completer();
-    rpc('admin_repository_list', [])
-        .then((result) {
+    rpc('admin_repository_list', []).then((result) {
+      print(' - $result');
       List<PackageRepositoryInfo> infoList = new List<PackageRepositoryInfo>();
-      yaml.YamlMap map = yaml.loadYaml(result[1]);
+      yaml.YamlMap map = yaml.loadYaml(result[2]);
       map.keys.forEach((key) {
         infoList.add(new PackageRepositoryInfo(key, map[key]));
       });
       infoList.sort((PackageRepositoryInfo a, PackageRepositoryInfo b) => a.name.compareTo(b.name));
 
       completer.complete(infoList);
-    })
-        .catchError((error) => completer.completeError(error));
-
+    }).catchError((error) {
+      print(' - $error');
+      completer.completeError(error);
+    } );
     return completer.future;
   }
 
@@ -121,19 +123,21 @@ class AdminFunction extends WasanbonRPCBase {
 
   /// Get Package Info List of wasanbon server
   Future<List<PackageInfo>> getPackageList() {
+    print('${this.runtimeType}.getPackageList()');
     var completer = new Completer();
-    rpc('admin_package_list', [])
-    .then((result) {
-      yaml.YamlMap res = yaml.loadYaml(result[1]);
+    rpc('admin_package_list', []).then((result) {
+      print(' - $result');
+      yaml.YamlMap res = yaml.loadYaml(result[2]);
       List<PackageInfo> pkgs = [];
       for(String name in res.keys) {
         pkgs.add(new PackageInfo(name, res[name]));
       }
       pkgs.sort((a, b) => a.name.compareTo(b.name));
       completer.complete(pkgs);
-    })
-    .catchError((error) => completer.completeError(error));
-
+    }).catchError((error) {
+      print(' - $error');
+      completer.completeError(error);
+    } );
     return completer.future;
   }
 

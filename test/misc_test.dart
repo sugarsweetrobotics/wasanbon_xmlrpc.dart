@@ -36,6 +36,7 @@ misc_test() {
       return f;
     });
 
+    /// バージョン確認テスト
     test.test('Version Test', () async {
       Future f = rpc.misc.version();
       f.then( (VersionInfo v) {

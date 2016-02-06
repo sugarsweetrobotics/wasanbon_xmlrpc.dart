@@ -8,6 +8,7 @@ import 'mgrRtc_test.dart';
 import 'processes_test.dart';
 import 'admin_test.dart';
 import 'misc_test.dart';
+import 'nameservice_test.dart';
 
 main() {
   misc_test();
@@ -15,4 +16,5 @@ main() {
   processes_test();
   files_test();
   mgrRtc_test();
+  nameservice_test();
 }
