@@ -167,24 +167,6 @@ class PackageFunction extends WasanbonRPCBase {
 
 
 
-  Future<List<RtcRepositoryInfo>> listRtcRepositories(pkg) {
-    var completer = new Completer();
-    rpc('rtc_repositories', [pkg])
-        .then((result) {
-      List<RtcRepositoryInfo> infoList = new List<RtcRepositoryInfo>();
-      yaml.YamlMap map = yaml.loadYaml(result[1]);
-      map.keys.forEach((key) {
-        infoList.add(new RtcRepositoryInfo(key, map[key]));
-      });
-      infoList.sort((a, b) => a.name.compareTo(b.name));
-      completer.complete(infoList);
-    })
-        .catchError((error) =>
-        completer.completeError(error)
-    );
-
-    return completer.future;
-  }
 
   Future<String> pullRtcRepository(pkg, rtc) {
     var completer = new Completer();

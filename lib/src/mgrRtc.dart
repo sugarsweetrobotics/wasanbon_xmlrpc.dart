@@ -1,6 +1,6 @@
 
 
-library wasanbon_xmlrpc.package;
+library wasanbon_xmlrpc.mgrRtc;
 import "base.dart";
 import 'dart:async';
 import 'package:http/http.dart' as http;
@@ -49,40 +49,55 @@ class MgrRtcFunction extends WasanbonRPCBase {
 
   /// パッケージ (pkgName) 内のRTCのリストを取得
   Future<List<RtcInfo>> getRtcList(String packageName) {
+    print('${this.runtimeType}.getRtcList($packageName)');
     var completer = new Completer();
-    rpc('mgrRtc_list', [packageName])
-        .then((result) {
-      yaml.YamlMap res = yaml.loadYaml(result[1]);
+    rpc('mgrRtc_list', [packageName]).then((result) {
+      print(' - $result');
+      if (!result[0]) completer.complete(null);
+
+      yaml.YamlMap res = yaml.loadYaml(result[2]);
       var rtcs = [];
       for(String name in res.keys) {
         rtcs.add(new RtcInfo(name, res[name]));
       }
       rtcs.sort((RtcInfo a, RtcInfo b) => a.name.compareTo(b.name));
-
       completer.complete(rtcs);
-    }).catchError((error) => completer.completeError(error));
+    }).catchError((error) {
+      print(' - $error');
+      completer.completeError(error);
+    });
     return completer.future;
   }
 
   /// RTCのビルド
   Future<BuildInfo> buildRTC(String packageName, String rtcName) {
+    print('${this.runtimeType}.build($packageName, $rtcName)');
     var completer = new Completer();
-    rpc('mgrRtc_build', [packageName, rtcName])
-        .then((result) {
-      completer.complete(new BuildInfo(result[1] == 0, result[2]));
-    })
-        .catchError((error) => completer.completeError(error));
+    rpc('mgrRtc_build', [packageName, rtcName]).then((result) {
+      print(' - $result');
+      if (!result[0]) completer.complete(null);
+
+      completer.complete(new BuildInfo(result[2][0] == 0, result[2][1]));
+    }).catchError((error) {
+      print(' - $error');
+      completer.completeError(error);
+    });
     return completer.future;
   }
 
   /// RTCのクリーン
   Future<BuildInfo> cleanRTC(String packageName, String rtcName) {
+    print('${this.runtimeType}.clean($packageName, $rtcName)');
     var completer = new Completer();
-    rpc('mgrRtc_clean', [packageName, rtcName])
-        .then((result) {
-      completer.complete(new BuildInfo(result[1] == 0, result[2]));
-    })
-        .catchError((error) => completer.completeError(error));
+    rpc('mgrRtc_clean', [packageName, rtcName]).then((result) {
+      print(' - $result');
+      if (!result[0]) completer.complete(null);
+
+      completer.complete(new BuildInfo(result[2][0] == 0, result[2][1]));
+    }).catchError((error) {
+      print(' - $error');
+      completer.completeError(error);
+    });
     return completer.future;
   }
 

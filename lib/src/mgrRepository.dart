@@ -1,6 +1,6 @@
 
 
-library wasanbon_xmlrpc.package;
+library wasanbon_xmlrpc.mgrRepository;
 import "base.dart";
 import 'dart:async';
 import 'package:http/http.dart' as http;
@@ -16,6 +16,26 @@ class MgrRepositoryFunction extends WasanbonRPCBase {
       {String url: 'http://localhost:8000/RPC', http.Client client: null})
       : super(url: url, client: client) {
 
+  }
+
+  Future<List<RtcRepositoryInfo>> list(pkg) {
+    var completer = new Completer();
+    rpc('mgrRepository_list', [pkg]).then((result) {
+      print(' - $result');
+      if (!result[0]) completer.complete(null);
+
+      List<RtcRepositoryInfo> infoList = new List<RtcRepositoryInfo>();
+      yaml.YamlMap map = yaml.loadYaml(result[2]);
+      map.keys.forEach((key) {
+        infoList.add(new RtcRepositoryInfo(key, map[key]));
+      });
+      infoList.sort((a, b) => a.name.compareTo(b.name));
+      completer.complete(infoList);
+    }).catchError((error) {
+      print(' - $error');
+      completer.completeError(error);
+    });
+    return completer.future;
   }
 
 }

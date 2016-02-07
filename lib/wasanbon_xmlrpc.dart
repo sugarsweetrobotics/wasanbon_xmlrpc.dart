@@ -13,6 +13,7 @@ export 'src/base.dart';
 export 'src/nameservice.dart';
 export 'src/rtc.dart';
 export 'src/mgrRtc.dart';
+export 'src/mgrRepository.dart';
 export 'src/system.dart';
 export 'src/admin.dart';
 export 'src/files.dart';
