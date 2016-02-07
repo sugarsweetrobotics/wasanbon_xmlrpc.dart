@@ -24,10 +24,11 @@ class RtcInfo {
   }
 }
 
+
+/// パッケージ管理関数
 class PackageFunction extends WasanbonRPCBase {
 
   PackageFunction({String url:'http://localhost:8000/RPC', http.Client client:null}) : super(url:url, client:client) {
-
   }
 
   Future<xml.XmlDocument> getRTCProfile(String packageName, String rtcName) {

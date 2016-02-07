@@ -82,10 +82,33 @@ class PackageRepositoryInfo {
   }
 }
 
+
+/// 管理機能
 class AdminFunction extends WasanbonRPCBase {
 
   AdminFunction({String url:'http://localhost:8000/RPC', http.Client client:null}) : super(url:url, client:client) {
 
+  }
+
+
+  /// Get Package Info List of wasanbon server
+  Future<List<PackageInfo>> getPackageList() {
+    print('${this.runtimeType}.getPackageList()');
+    var completer = new Completer();
+    rpc('admin_package_list', []).then((result) {
+      print(' - $result');
+      yaml.YamlMap res = yaml.loadYaml(result[2]);
+      List<PackageInfo> pkgs = [];
+      for(String name in res.keys) {
+        pkgs.add(new PackageInfo(name, res[name]));
+      }
+      pkgs.sort((a, b) => a.name.compareTo(b.name));
+      completer.complete(pkgs);
+    }).catchError((error) {
+      print(' - $error');
+      completer.completeError(error);
+    } );
+    return completer.future;
   }
 
   /// Get Package Repository List
@@ -109,6 +132,7 @@ class AdminFunction extends WasanbonRPCBase {
     return completer.future;
   }
 
+
   Future<String> clonePackageRepository(String repoName) {
     var completer = new Completer();
     rpc('admin_repository_clone', [repoName])
@@ -121,25 +145,6 @@ class AdminFunction extends WasanbonRPCBase {
     return completer.future;
   }
 
-  /// Get Package Info List of wasanbon server
-  Future<List<PackageInfo>> getPackageList() {
-    print('${this.runtimeType}.getPackageList()');
-    var completer = new Completer();
-    rpc('admin_package_list', []).then((result) {
-      print(' - $result');
-      yaml.YamlMap res = yaml.loadYaml(result[2]);
-      List<PackageInfo> pkgs = [];
-      for(String name in res.keys) {
-        pkgs.add(new PackageInfo(name, res[name]));
-      }
-      pkgs.sort((a, b) => a.name.compareTo(b.name));
-      completer.complete(pkgs);
-    }).catchError((error) {
-      print(' - $error');
-      completer.completeError(error);
-    } );
-    return completer.future;
-  }
 
   Future<String> deletePackage(pkg) {
     var completer = new Completer();

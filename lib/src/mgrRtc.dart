@@ -101,13 +101,18 @@ class MgrRtcFunction extends WasanbonRPCBase {
     return completer.future;
   }
 
-  Future<BuildInfo> deleteRTC(String packageName, String rtcName) {
+  /// RTCの削除
+  Future<String> deleteRTC(String packageName, String rtcName) {
+    print('${this.runtimeType}.delete($packageName, $rtcName)');
     var completer = new Completer();
-    rpc('mgrRtc_delete', [packageName, rtcName])
-        .then((result) {
-      completer.complete(new BuildInfo(result[1] == 0, result[2]));
-    })
-        .catchError((error) => completer.completeError(error));
+    rpc('mgrRtc_delete', [packageName, rtcName]).then((result) {
+      print(' - $result');
+      if (!result[0]) completer.complete(null);
+      completer.complete(result[2]);
+    }).catchError((error) {
+      print(' - $error');
+      completer.completeError(error);
+    });
     return completer.future;
   }
 
