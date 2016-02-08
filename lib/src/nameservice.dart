@@ -9,6 +9,7 @@ import 'package:xml_rpc/client.dart' as xmlrpc;
 import 'package:yaml/yaml.dart' as yaml;
 import 'processes.dart';
 
+import 'package:logging/logging.dart';
 
 class Node {
   Node parent;

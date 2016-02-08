@@ -8,6 +8,7 @@ import 'package:xml_rpc/client.dart' as xmlrpc;
 import 'package:yaml/yaml.dart' as yaml;
 import 'package:xml/xml.dart' as xml;
 
+import 'package:logging/logging.dart';
 
 
 class RtcInfo {
@@ -49,10 +50,10 @@ class MgrRtcFunction extends WasanbonRPCBase {
 
   /// パッケージ (pkgName) 内のRTCのリストを取得
   Future<List<RtcInfo>> getRtcList(String packageName) {
-    print('${this.runtimeType}.getRtcList($packageName)');
+    logger.fine('${this.runtimeType}.getRtcList($packageName)');
     var completer = new Completer();
     rpc('mgrRtc_list', [packageName]).then((result) {
-      print(' - $result');
+      logger.finer(' - $result');
       if (!result[0]) completer.complete(null);
 
       yaml.YamlMap res = yaml.loadYaml(result[2]);
@@ -63,7 +64,7 @@ class MgrRtcFunction extends WasanbonRPCBase {
       rtcs.sort((RtcInfo a, RtcInfo b) => a.name.compareTo(b.name));
       completer.complete(rtcs);
     }).catchError((error) {
-      print(' - $error');
+      logger.severe(' - $error');
       completer.completeError(error);
     });
     return completer.future;
@@ -71,15 +72,15 @@ class MgrRtcFunction extends WasanbonRPCBase {
 
   /// RTCのビルド
   Future<BuildInfo> buildRTC(String packageName, String rtcName) {
-    print('${this.runtimeType}.build($packageName, $rtcName)');
+    logger.fine('${this.runtimeType}.build($packageName, $rtcName)');
     var completer = new Completer();
     rpc('mgrRtc_build', [packageName, rtcName]).then((result) {
-      print(' - $result');
+      logger.finer(' - $result');
       if (!result[0]) completer.complete(null);
 
       completer.complete(new BuildInfo(result[2][0] == 0, result[2][1]));
     }).catchError((error) {
-      print(' - $error');
+      logger.severe(' - $error');
       completer.completeError(error);
     });
     return completer.future;
@@ -87,15 +88,15 @@ class MgrRtcFunction extends WasanbonRPCBase {
 
   /// RTCのクリーン
   Future<BuildInfo> cleanRTC(String packageName, String rtcName) {
-    print('${this.runtimeType}.clean($packageName, $rtcName)');
+    logger.fine('${this.runtimeType}.clean($packageName, $rtcName)');
     var completer = new Completer();
     rpc('mgrRtc_clean', [packageName, rtcName]).then((result) {
-      print(' - $result');
+      logger.finer(' - $result');
       if (!result[0]) completer.complete(null);
 
       completer.complete(new BuildInfo(result[2][0] == 0, result[2][1]));
     }).catchError((error) {
-      print(' - $error');
+      logger.severe(' - $error');
       completer.completeError(error);
     });
     return completer.future;
@@ -103,14 +104,14 @@ class MgrRtcFunction extends WasanbonRPCBase {
 
   /// RTCの削除
   Future<String> deleteRTC(String packageName, String rtcName) {
-    print('${this.runtimeType}.delete($packageName, $rtcName)');
+    logger.fine('${this.runtimeType}.delete($packageName, $rtcName)');
     var completer = new Completer();
     rpc('mgrRtc_delete', [packageName, rtcName]).then((result) {
-      print(' - $result');
+      logger.finer(' - $result');
       if (!result[0]) completer.complete(null);
       completer.complete(result[2]);
     }).catchError((error) {
-      print(' - $error');
+      logger.severe(' - $error');
       completer.completeError(error);
     });
     return completer.future;

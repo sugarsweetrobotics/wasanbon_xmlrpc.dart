@@ -8,6 +8,7 @@ import 'dart:io';
 import 'package:unittest/unittest.dart' as test;
 import 'package:wasanbon_xmlrpc/wasanbon_xmlrpc.dart';
 
+import 'package:logging/logging.dart';
 
 String test_script = '''
 #!/usr/bin/env python
@@ -93,6 +94,10 @@ nameservice_test() {
 
     test.setUp(() async {
       rpc = new WasanbonRPC(url: "http://localhost:8000/RPC");
+      Logger.root.level = Level.WARNING;
+      rpc.onRecordListen((LogRecord rec) {
+        print('${rec.level.name}: ${rec.time}: ${rec.message}');
+      });
     });
 
 /*

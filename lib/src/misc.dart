@@ -8,6 +8,7 @@ import "base.dart";
 import 'dart:async';
 import 'package:http/http.dart' as http;
 
+import 'package:logging/logging.dart';
 class VersionInfo {
   var version = "0.0";
   var platform = "none";
