@@ -17,14 +17,14 @@ class FilesFunction extends WasanbonRPCBase {
   /// returns List<String> if succeeded.
   /// if null, failed.
   Future<List<String>> listDirectory(String dir) {
-    print('${this.runtimeType}.listDirectory($dir)');
+    logger.fine('${this.runtimeType}.listDirectory($dir)');
     var completer = new Completer();
     rpc('files_list_directory', [dir]).then((result) {
-      print(' - $result');
+      logger.finer(' - $result');
       if (result[0]) completer.complete(result[2]);
       else completer.complete(null);
     }).catchError((error) {
-      print(' - $error');
+      logger.severe(' - $error');
       completer.completeError(error);
     });
     return completer.future;
@@ -35,14 +35,14 @@ class FilesFunction extends WasanbonRPCBase {
   /// returns String : path of working directory
   /// if null failed.
   Future<String> printWorkingDirectory() {
-    print('${this.runtimeType}.printWorkingDirectory()');
+    logger.fine('${this.runtimeType}.printWorkingDirectory()');
     var completer = new Completer();
     rpc('files_print_working_directory', []).then((result) {
-      print(' - $result');
+      logger.finer(' - $result');
       if (result[0]) completer.complete(result[2]);
       else completer.complete(null);
     }).catchError((error) {
-      print(' - $error');
+      logger.severe(' - $error');
       completer.completeError(error);
     });
     return completer.future;
@@ -54,14 +54,14 @@ class FilesFunction extends WasanbonRPCBase {
   /// return String : path of changed directory
   /// if null failed.
   Future<String> changeDirectory(String dir) {
-    print('${this.runtimeType}.changeDirectory($dir)');
+    logger.fine('${this.runtimeType}.changeDirectory($dir)');
     var completer = new Completer();
     rpc('files_change_directory', [dir]).then((result) {
-      print(' - $result');
+      logger.finer(' - $result');
       if (result[0]) completer.complete(result[2]);
       else completer.complete(null);
     }).catchError((error) {
-      print(' - $error');
+      logger.severe(' - $error');
       completer.completeError(error);
     });
     return completer.future;
@@ -72,42 +72,42 @@ class FilesFunction extends WasanbonRPCBase {
   /// fileContent : text of the file
   /// return string fullpath of the file, null if failed.
   Future<String> uploadFile(String filename, String fileContent) {
-    print('${this.runtimeType}.uploadFile($filename, $fileContent)');
+    logger.fine('${this.runtimeType}.uploadFile($filename, $fileContent)');
     var completer = new Completer();
     rpc('files_upload_file', [filename, fileContent]).then((result) {
-      print(' - $result');
+      logger.finer(' - $result');
       if (result[0]) completer.complete(result[2]);
       else completer.complete(null);
     }).catchError((error) {
-      print(' - $error');
+      logger.severe(' - $error');
       completer.completeError(error);
     });
     return completer.future;
   }
 
   Future<String> downloadFile(String filename) {
-    print('${this.runtimeType}.downloadFile($filename)');
+    logger.fine('${this.runtimeType}.downloadFile($filename)');
     var completer = new Completer();
     rpc('files_download_file', [filename]).then((result) {
-      print(' - $result');
+      logger.finer(' - $result');
       if (result[0]) completer.complete(result[2]);
       else completer.complete(null);
     }).catchError((error) {
-      print(' - $error');
+      logger.severe(' - $error');
       completer.completeError(error);
     });
     return completer.future;
   }
 
   Future<String> deleteFile(String filename) {
-    print('${this.runtimeType}.deleteFile($filename)');
+    logger.fine('${this.runtimeType}.deleteFile($filename)');
     var completer = new Completer();
     rpc('files_delete_file', [filename]).then((result) {
-      print(' - $result');
+      logger.finer(' - $result');
       if (result[0]) completer.complete(result[2]);
       else completer.complete(null);
     }).catchError((error) {
-      print(' - $error');
+      logger.severe(' - $error');
       completer.completeError(error);
     });
     return completer.future;
