@@ -19,7 +19,7 @@ adminRepository_test() {
 
     test.setUp(() async {
       rpc = new WasanbonRPC(url: "http://localhost:8000/RPC");
-      Logger.root.level = Level.FINE;
+      Logger.root.level = Level.WARNING;
       rpc.onRecordListen((LogRecord rec) {
         print('${rec.level.name}: ${rec.time}: ${rec.message}');
       });

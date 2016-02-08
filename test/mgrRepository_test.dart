@@ -18,7 +18,7 @@ mgrRepository_test() {
 
     test.setUp(() async {
       rpc = new WasanbonRPC(url: "http://localhost:8000/RPC");
-      Logger.root.level = Level.WARNING;
+      Logger.root.level = Level.FINER;
       rpc.onRecordListen((LogRecord rec) {
         print('${rec.level.name}: ${rec.time}: ${rec.message}');
       });
@@ -62,9 +62,9 @@ mgrRepository_test() {
 
         //rtcRepoName = rtcs[0].name;
         return rpc.mgrRepository.clone(packageName, rtcRepoName);
-      }).then((String msg) {
-        print('RTC $rtcRepoName in $packageName is cloned');
-        test.expect(msg != null, test.isTrue);
+      }).then((bool flag) {
+        print('RTC $rtcRepoName in $packageName clone => $flag');
+        test.expect(flag, test.isTrue);
 
         /// RTCをリストする
         return rpc.mgrRtc.getRtcList(packageName);
