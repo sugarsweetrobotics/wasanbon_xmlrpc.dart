@@ -47,10 +47,10 @@ class AdminRepositoryFunction extends WasanbonRPCBase {
 
   /// Get Package Repository List
   Future<List<PackageRepositoryInfo>> list() {
-    print('${this.runtimeType}.getPackageRepositoryList()');
+    logger.fine('${this.runtimeType}.getPackageRepositoryList()');
     var completer = new Completer();
     rpc('adminRepository_list', []).then((result) {
-      print(' - $result');
+      logger.finer(' - $result');
       List<PackageRepositoryInfo> infoList = new List<PackageRepositoryInfo>();
       yaml.YamlMap map = yaml.loadYaml(result[2]);
       map.keys.forEach((key) {
@@ -61,18 +61,20 @@ class AdminRepositoryFunction extends WasanbonRPCBase {
 
       completer.complete(infoList);
     }).catchError((error) {
-      print(' - $error');
+      logger.severe(' - $error');
       completer.completeError(error);
     });
     return completer.future;
   }
 
   Future<String> clone(String repoName) {
+    logger.fine('${this.runtimeType}.clone($repoName)');
     var completer = new Completer();
-    rpc('adminRepository_clone', [repoName])
-        .then((result) {
+    rpc('adminRepository_clone', [repoName]).then((result) {
+      logger.finer(' - $result');
       completer.complete(result);
     }).catchError((error) {
+      logger.severe(' - $error');
       completer.completeError(error);
     });
 
