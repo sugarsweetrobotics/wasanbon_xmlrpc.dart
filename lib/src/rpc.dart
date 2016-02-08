@@ -17,6 +17,7 @@ import 'system.dart';
 import 'misc.dart';
 import 'files.dart';
 import 'processes.dart';
+import 'setting.dart';
 
 class WasanbonRPC {
 
@@ -31,6 +32,7 @@ class WasanbonRPC {
   FilesFunction files;
   ProcessesFunction processes;
   MgrRepositoryFunction mgrRepository;
+  SettingFunction setting;
 
   WasanbonRPC({String url:'http://localhost:8000/RPC', http.Client client:null}) {
     adminPackage = new AdminPackageFunction(url: url, client: client);
@@ -43,6 +45,7 @@ class WasanbonRPC {
     misc = new MiscFunction(url:url, client: client);
     files = new FilesFunction(url:url, client:client);
     processes = new ProcessesFunction(url:url, client:client);
+    setting = new SettingFunction(url:url, client:client);
   }
 
   onRecordListen(var func) {
@@ -56,6 +59,7 @@ class WasanbonRPC {
     misc.logger.onRecord.listen(func);
     files.logger.onRecord.listen(func);
     processes.logger.onRecord.listen(func);
+    setting.logger.onRecord.listen(func);
   }
 
 }
