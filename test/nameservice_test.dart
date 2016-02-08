@@ -4,10 +4,9 @@
 library wasanbon_xmlrpc.test.nameservice_test;
 
 import 'dart:async';
-import 'dart:io';
+import 'dart:io' as io;
 import 'package:unittest/unittest.dart' as test;
 import 'package:wasanbon_xmlrpc/wasanbon_xmlrpc.dart';
-
 import 'package:logging/logging.dart';
 
 String test_script = '''
@@ -166,7 +165,7 @@ nameservice_test() {
         int count = 20;
         for (int i = 0; i < count; i++) {
           print('Waiting for Start and Register RT-component(${count - i}/$count)');
-          sleep(const Duration(seconds: 1));
+          io.sleep(const Duration(seconds: 1));
         }
         /// 実行確認をツリーで
         return rpc.nameService.tree(port: port);
@@ -284,7 +283,7 @@ nameservice_test() {
         int count = 5;
         for (int i = 0; i < count; i++) {
           print('Waiting for RTC is activated.(${count - i}/$count)');
-          sleep(const Duration(seconds: 1));
+          io.sleep(const Duration(seconds: 1));
         }
 
         /// アクティブか確認
@@ -313,7 +312,7 @@ nameservice_test() {
         int count = 5;
         for (int i = 0; i < count; i++) {
           print('Waiting for RTC is deactivated(${count - i}/$count)');
-          sleep(const Duration(seconds: 1));
+          io.sleep(const Duration(seconds: 1));
         }
 
         /// インアクティブか確認
@@ -341,7 +340,7 @@ nameservice_test() {
         int count = 5;
         for (int i = 0; i < count; i++) {
           print('Waiting for RTC is exit(${count - i}/$count)');
-          sleep(const Duration(seconds: 1));
+          io.sleep(const Duration(seconds: 1));
         }
 
 

@@ -733,42 +733,42 @@ class NameServiceFunction extends WasanbonRPCBase {
   }
 
   Future<Process> start(int port) {
-    print('${this.runtimeType}.start($port)');
+    logger.fine('${this.runtimeType}.start($port)');
     var completer = new Completer();
     rpc('nameservice_start', [port]).then((result) {
-      print(' - $result');
+      logger.finer(' - $result');
       if (result[0]) completer.complete(new Process('omniNames', 0));
       else completer.complete(null);
     }).catchError((error) {
-      print(' - $error');
+      logger.severe(' - $error');
       completer.completeError(error);
     });
     return completer.future;
   }
 
   Future<Process> stop(int port) {
-    print('${this.runtimeType}.stop($port)');
+    logger.fine('${this.runtimeType}.stop($port)');
     var completer = new Completer();
     rpc('nameservice_stop', [port]).then((result) {
-      print(' - $result');
+      logger.finer(' - $result');
       if (result[0]) completer.complete(new Process('omniNames', 0));
       else completer.complete(null);
     }).catchError((error) {
-      print(' - $error');
+      logger.severe(' - $error');
       completer.completeError(error);
     });
     return completer.future;
   }
 
   Future<bool> checkRunning(int port) {
-    print('${this.runtimeType}.check_running($port)');
+    logger.fine('${this.runtimeType}.check_running($port)');
     var completer = new Completer();
     rpc('nameservice_check_running', [port]).then((result) {
-      print(' - $result');
+      logger.finer(' - $result');
       if (result[0]) completer.complete(result[2]);
       else completer.complete(null);
     }).catchError((error) {
-      print(' - $error');
+      logger.severe(' - $error');
       completer.completeError(error);
     });
     return completer.future;
@@ -791,14 +791,14 @@ class NameServiceFunction extends WasanbonRPCBase {
   /// Activate RTC
   /// return: fullpath to RTC ativated. null if failed.
   Future<String> activateRTC(fullPath) {
-    print('${this.runtimeType}.activateRTC($fullPath)');
+    logger.fine('${this.runtimeType}.activateRTC($fullPath)');
     var completer = new Completer();
     rpc('nameservice_activate_rtc', [fullPath]).then((result) {
-      print(' - $result');
+      logger.finer(' - $result');
       if (result[0]) completer.complete(result[2]);
       else completer.complete(null);
     }).catchError((error) {
-      print(' - $error');
+      logger.severe(' - $error');
       completer.completeError(error);
     });
 
@@ -807,14 +807,14 @@ class NameServiceFunction extends WasanbonRPCBase {
 
   /// Deactivate RTC
   Future<String> deactivateRTC(fullPath) {
-    print('${this.runtimeType}.deactivateRTC($fullPath)');
+    logger.fine('${this.runtimeType}.deactivateRTC($fullPath)');
     var completer = new Completer();
     rpc('nameservice_deactivate_rtc', [fullPath]).then((result) {
-      print(' - $result');
+      logger.finer(' - $result');
       if (result[0]) completer.complete(result[2]);
       else completer.complete(null);
     }).catchError((error) {
-      print(' - $error');
+      logger.severe(' - $error');
       completer.completeError(error);
     });
 
@@ -822,14 +822,14 @@ class NameServiceFunction extends WasanbonRPCBase {
   }
 
   Future<String> resetRTC(fullPath) {
-    print('${this.runtimeType}.resetRTC($fullPath)');
+    logger.fine('${this.runtimeType}.resetRTC($fullPath)');
     var completer = new Completer();
     rpc('nameservice_reset_rtc', [fullPath]).then((result) {
-      print(' - $result');
+      logger.finer(' - $result');
       if (result[0]) completer.complete(result[2]);
       else completer.complete(null);
     }).catchError((error) {
-      print(' - $error');
+      logger.severe(' - $error');
       completer.completeError(error);
     } );
     return completer.future;
@@ -837,14 +837,14 @@ class NameServiceFunction extends WasanbonRPCBase {
 
   /// Exit RTC.
   Future<String> exitRTC(fullPath) {
-    print('${this.runtimeType}.exitRTC($fullPath)');
+    logger.fine('${this.runtimeType}.exitRTC($fullPath)');
     var completer = new Completer();
     rpc('nameservice_exit_rtc', [fullPath]).then((result) {
-      print(' - $result');
+      logger.finer(' - $result');
       if (result[0]) completer.complete(result[2]);
       else completer.complete(null);
     }).catchError((error) {
-      print(' - $error');
+      logger.severe(' - $error');
       completer.completeError(error);
     } );
     return completer.future;
@@ -852,15 +852,15 @@ class NameServiceFunction extends WasanbonRPCBase {
 
   /// Configure RTC
   Future<bool> configureRTC(String fullPath, String confSetName, String confName, String confValue) {
-    print('${this.runtimeType}.configureRTC($fullPath, $confSetName, $confName, $confValue)');
+    logger.fine('${this.runtimeType}.configureRTC($fullPath, $confSetName, $confName, $confValue)');
     var completer = new Completer();
     rpc('nameservice_configure_rtc', [fullPath, confSetName, confName, confValue])
     .then((result) {
-      print(' - $result');
+      logger.finer(' - $result');
       if (result[0]) completer.complete(result[2]);
       else completer.complete(null);
     }).catchError((error) {
-      print(' - $error');
+      logger.severe(' - $error');
       completer.completeError(error);
     } );
     return completer.future;
@@ -868,7 +868,7 @@ class NameServiceFunction extends WasanbonRPCBase {
 
   /// List Connectable Port Pairs.
   Future<List<ConnectablePortPair>> listConnectablePairs(List<String> nameServers) {
-    print('${this.runtimeType}.listConnectablePairs($nameServers)');
+    logger.fine('${this.runtimeType}.listConnectablePairs($nameServers)');
     var completer = new Completer();
     var arg = "";
     for(String ns in nameServers) {
@@ -877,7 +877,7 @@ class NameServiceFunction extends WasanbonRPCBase {
     arg = arg.substring(1);
     List<ConnectablePortPair> list = [];
     rpc('nameservice_list_connectable_pairs', [arg]).then((result) {
-      print(' - $result');
+      logger.finer(' - $result');
       String value = result[2].trim();
       RegExp reg = new RegExp(r'\r\n|\r|\n', multiLine : true);
       var lines = value.trim().split(reg);
@@ -890,35 +890,35 @@ class NameServiceFunction extends WasanbonRPCBase {
       if (result[0]) completer.complete(list);
       else completer.complete(null);
     }).catchError((error) {
-      print(' - $error');
+      logger.severe(' - $error');
       completer.completeError(error);
     } );
     return completer.future;
   }
 
   Future<bool> connectPorts(ConnectablePortPair pair, {String param : ""}) {
-    print('${this.runtimeType}.connectPorts($pair, $param)');
+    logger.fine('${this.runtimeType}.connectPorts($pair, $param)');
     var completer = new Completer();
     rpc('nameservice_connect_ports', [pair.ports[0], pair.ports[1], param]).then((result) {
-      print(' - $result');
+      logger.finer(' - $result');
       if (result[0]) completer.complete(result[2]);
       else completer.complete(null);
     }).catchError((error) {
-      print(' - $error');
+      logger.severe(' - $error');
       completer.completeError(error);
     } );
     return completer.future;
   }
 
   Future<bool> disconnectPorts(ConnectablePortPair pair) {
-    print('${this.runtimeType}.disconnectPorts($pair)');
+    logger.fine('${this.runtimeType}.disconnectPorts($pair)');
     var completer = new Completer();
     rpc('nameservice_disconnect_ports', [pair.ports[0], pair.ports[1]]).then((result) {
-      print(' - $result');
+      logger.finer(' - $result');
       if (result[0]) completer.complete(result[2]);
       else completer.complete(null);
     }).catchError((error) {
-      print(' - $error');
+      logger.severe(' - $error');
       completer.completeError(error);
     } );
 
