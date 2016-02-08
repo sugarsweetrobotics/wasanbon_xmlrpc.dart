@@ -3,6 +3,7 @@ library wasanbon_xmlrpc.files;
 import "base.dart";
 import 'dart:async';
 import 'package:http/http.dart' as http;
+import 'package:logging/logging.dart';
 
 class FilesFunction extends WasanbonRPCBase {
 

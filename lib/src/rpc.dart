@@ -7,7 +7,8 @@ import 'package:xml_rpc/client.dart' as xmlrpc;
 import 'package:yaml/yaml.dart' as yaml;
 import 'package:xml/xml.dart' as xml;
 
-import 'admin.dart';
+import 'adminPackage.dart';
+import 'adminRepository.dart';
 import 'nameservice.dart';
 import 'rtc.dart';
 import 'mgrRtc.dart';
@@ -19,7 +20,9 @@ import 'processes.dart';
 
 class WasanbonRPC {
 
-  AdminFunction admin;
+
+  AdminRepositoryFunction adminRepository;
+  AdminPackageFunction adminPackage;
   NameServiceFunction nameService;
   RtcFunction rtc;
   SystemFunction system;
@@ -30,7 +33,8 @@ class WasanbonRPC {
   MgrRepositoryFunction mgrRepository;
 
   WasanbonRPC({String url:'http://localhost:8000/RPC', http.Client client:null}) {
-    admin = new AdminFunction(url: url, client: client);
+    adminPackage = new AdminPackageFunction(url: url, client: client);
+    adminRepository = new AdminRepositoryFunction(url: url, client: client);
     nameService = new NameServiceFunction(url: url, client: client);
     rtc = new RtcFunction(url: url, client: client);
     system = new SystemFunction(url: url, client: client);
@@ -41,7 +45,18 @@ class WasanbonRPC {
     processes = new ProcessesFunction(url:url, client:client);
   }
 
-
+  onRecordListen(var func) {
+    adminPackage.logger.onRecord.listen(func);
+    adminRepository.logger.onRecord.listen(func);
+    nameService.logger.onRecord.listen(func);
+    rtc.logger.onRecord.listen(func);
+    system.logger.onRecord.listen(func);
+    mgrRtc.logger.onRecord.listen(func);
+    mgrRepository.logger.onRecord.listen(func);
+    misc.logger.onRecord.listen(func);
+    files.logger.onRecord.listen(func);
+    processes.logger.onRecord.listen(func);
+  }
 
 }
 

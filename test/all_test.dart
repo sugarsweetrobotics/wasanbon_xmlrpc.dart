@@ -6,7 +6,7 @@ library wasanbon_xmlrpc.test;
 import 'files_test.dart';
 import 'mgrRtc_test.dart';
 import 'processes_test.dart';
-import 'admin_test.dart';
+import 'adminPackage_test.dart';
 import 'misc_test.dart';
 import 'nameservice_test.dart';
 

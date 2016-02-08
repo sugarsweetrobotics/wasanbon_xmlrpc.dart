@@ -1,14 +1,14 @@
 
 
 
-library wasanbon_xmlrpc.admin;
+library wasanbon_xmlrpc.adminPackage;
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:xml_rpc/client.dart' as xmlrpc;
 import 'package:yaml/yaml.dart' as yaml;
 import 'package:xml/xml.dart' as xml;
 import 'base.dart';
-
+import 'package:logging/logging.dart';
 
 
 class PackageInfo {
@@ -61,42 +61,19 @@ class PackageInfo {
 }
 
 
-class PackageRepositoryInfo {
-
-  String name;
-  String url;
-  String description;
-  String type;
-  var platform;
-
-  PackageRepositoryInfo(this.name, yaml.YamlMap map) {
-    url = map['url'];
-    description = map['description'];
-    type = map['type'];
-    platform = map['platform'];
-  }
-
-  String toString() {
-    return name;
-    //return 'PackageReposiotryInfo name="${name}" url="${url}" description="${description}"';
-  }
-}
-
-
 /// 管理機能
-class AdminFunction extends WasanbonRPCBase {
+class AdminPackageFunction extends WasanbonRPCBase {
 
-  AdminFunction({String url:'http://localhost:8000/RPC', http.Client client:null}) : super(url:url, client:client) {
+  AdminPackageFunction({String url:'http://localhost:8000/RPC', http.Client client:null}) : super(url:url, client:client) {
 
   }
-
 
   /// Get Package Info List of wasanbon server
-  Future<List<PackageInfo>> getPackageList() {
-    print('${this.runtimeType}.getPackageList()');
+  Future<List<PackageInfo>> list() {
+    logger.fine('${this.runtimeType}.getPackageList()');
     var completer = new Completer();
-    rpc('admin_package_list', []).then((result) {
-      print(' - $result');
+    rpc('adminPackage_list', []).then((result) {
+      logger.finer(' - $result');
       yaml.YamlMap res = yaml.loadYaml(result[2]);
       List<PackageInfo> pkgs = [];
       for(String name in res.keys) {
@@ -105,55 +82,25 @@ class AdminFunction extends WasanbonRPCBase {
       pkgs.sort((a, b) => a.name.compareTo(b.name));
       completer.complete(pkgs);
     }).catchError((error) {
-      print(' - $error');
-      completer.completeError(error);
-    } );
-    return completer.future;
-  }
-
-  /// Get Package Repository List
-  Future<List<PackageRepositoryInfo>> getPackageRepositoryList() {
-    print('${this.runtimeType}.getPackageRepositoryList()');
-    var completer = new Completer();
-    rpc('admin_repository_list', []).then((result) {
-      print(' - $result');
-      List<PackageRepositoryInfo> infoList = new List<PackageRepositoryInfo>();
-      yaml.YamlMap map = yaml.loadYaml(result[2]);
-      map.keys.forEach((key) {
-        infoList.add(new PackageRepositoryInfo(key, map[key]));
-      });
-      infoList.sort((PackageRepositoryInfo a, PackageRepositoryInfo b) => a.name.compareTo(b.name));
-
-      completer.complete(infoList);
-    }).catchError((error) {
-      print(' - $error');
+      logger.severe(' - $error');
       completer.completeError(error);
     } );
     return completer.future;
   }
 
 
-  Future<String> clonePackageRepository(String repoName) {
+
+
+  Future<String> delete(String packageName) {
+    logger.fine('${this.runtimeType}.delete($packageName)');
     var completer = new Completer();
-    rpc('admin_repository_clone', [repoName])
-        .then((result) {
+    rpc('adminPackage_delete', [packageName]).then((result) {
+      logger.finer(' - $result');
       completer.complete(result);
     }).catchError((error) {
+      logger.severe(' - $error');
       completer.completeError(error);
-    });
-
-    return completer.future;
-  }
-
-
-  Future<String> deletePackage(pkg) {
-    var completer = new Completer();
-    rpc('admin_package_delete', [pkg])
-        .then((result) {
-      completer.complete(result);
-    }).catchError((error) {
-      completer.completeError(error);
-    });
+    } );
 
     return completer.future;
   }
@@ -162,30 +109,25 @@ class AdminFunction extends WasanbonRPCBase {
 
   /// Get Running Package Info List of wasanbon server
   Future<List<PackageInfo>> getRunningPackageInfos() {
+    logger.fine('${this.runtimeType}.getRunningPackageInfos()');
     var completer = new Completer();
-    rpc('running_packages', [])
-    .then((result) {
+    rpc('adminPackage.running_packages', []).then((result) {
+      logger.finer(' - $result');
       yaml.YamlMap res = yaml.loadYaml(result[1]);
-
       List<PackageInfo> pkgs = [];
       if(res != null) {
-
         for (String name in res.keys) {
           pkgs.add(new PackageInfo(name, res[name]));
         }
         pkgs.sort((a, b) => a.name.compareTo(b.name));
       }
       completer.complete(pkgs);
-    })
-    .catchError((error) => completer.completeError(error));
+    }).catchError((error) {
+      logger.severe(' - $error');
+      completer.completeError(error);
+    } );
 
     return completer.future;
   }
-
-
-
-
-
-
 
 }

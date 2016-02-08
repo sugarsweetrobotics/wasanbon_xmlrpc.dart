@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:xml_rpc/client.dart' as xmlrpc;
 import 'package:yaml/yaml.dart' as yaml;
 import 'package:xml/xml.dart' as xml;
-
+import 'package:logging/logging.dart' as logging;
 
 
 class PackageInfoPack {
@@ -70,10 +70,13 @@ class WasanbonReturnValue {
 
 
 class WasanbonRPCBase {
+
+  logging.Logger logger;
   String url = "RPC";
   http.Client client = null;
   WasanbonRPCBase({String url:'http://localhost:8000/RPC', http.Client client:null}) {
     //WasanbonRPC({String url:'RPC', http.Client client:null}) {
+    logger = new logging.Logger(this.runtimeType.toString());
     this.url = url;
     this.client = client;
   }

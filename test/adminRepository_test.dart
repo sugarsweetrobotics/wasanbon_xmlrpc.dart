@@ -14,7 +14,7 @@ main() {
 
 admin_test() {
 
-  test.group('Admin tests', () {
+  test.group('Admin Repository tests', () {
     WasanbonRPC rpc;
 
     test.setUp(() async {
@@ -23,7 +23,7 @@ admin_test() {
 
     /// リスティングテスト
     test.test('Listing Repositories', () async {
-      Future f = rpc.admin.getPackageRepositoryList();
+      Future f = rpc.adminRepository.list();
 
       f.then((List<PackageRepositoryInfo> pkgs) {
         print('Package Repositories are $pkgs');
@@ -36,41 +36,28 @@ admin_test() {
       return f;
     });
 
-    /// リスティングテスト
-    test.test('Listing Packages', () async {
-      Future f = rpc.admin.getPackageList();
-
-      f.then((List<PackageInfo> pkgs) {
-        print('Packages are $pkgs');
-        test.expect(pkgs.length > 0, test.isTrue);
-      }).catchError((dat) {
-        print(dat);
-        test.fail('Exception occured in Package listing test');
-      });
-
-      return f;
-    });
 
     /// クローンテスト
     test.test('Cloning and Deleting Packages', () async {
       var pkgs;
-      var clone_repository;
+      var repo_names = ['test_package01', 'test_package02', 'test_package03'];
+      var clone_repository = '';
       var cloned_package;
       // 現状のパッケージのリストを取得
-      Future f = rpc.admin.getPackageList().then((List<PackageInfo> pkgs_) {
+      Future f = rpc.adminPackage.list().then((List<PackageInfo> pkgs_) {
         print('Packages are $pkgs');
         pkgs = pkgs_;
         test.expect(pkgs.length > 0, test.isTrue);
 
         // レポジトリのリストを取得
-        return rpc.admin.getPackageRepositoryList();
+        return rpc.adminRepository.list();
       }).then((List<PackageRepositoryInfo> repos) {
         test.expect(repos.length > 0, test.isTrue);
 
-        includes(PackageRepositoryInfo repo) {
+        includes(String repo) {
           bool ret = false;
           pkgs.forEach((PackageInfo pkg) {
-            if (repo.name == pkg.name) {
+            if (repo == pkg.name) {
               ret = true;
             }
           });
@@ -79,22 +66,22 @@ admin_test() {
 
         /// テストするリポジトリを選定する
         int i = 0;
-        for (i = 0; i < repos.length; i++) {
-          if (!includes(repos[i])) {
+        for (i = 0; i < repo_names.length; i++) {
+          if (!includes(repo_names[i])) {
             break;
           }
         }
 
-        clone_repository = repos[i];
+        clone_repository = repo_names[i];
 
         print ('## Cloning Package $clone_repository');
         // リポジトリをクローン
-        return rpc.admin.clonePackageRepository(clone_repository.name);
+        return rpc.adminRepository.clone(clone_repository);
       }).then((var ret) {
         print('Cloned repository. Return is $ret');
 
         // 最新のパッケージのリストを取得
-        return rpc.admin.getPackageList();
+        return rpc.adminPackage.list();
       }).then((List<PackageInfo> new_pkgs) {
         //print('Packages are $pkgs');
         test.expect(new_pkgs.length > 0, test.isTrue);
@@ -117,8 +104,8 @@ admin_test() {
         test.expect(
             cloned_package.name == clone_repository.name, test.isTrue);
 
-
-        return rpc.admin.deletePackage(cloned_package.name);
+        /// パッケージを削除
+        return rpc.adminPackage.delete(cloned_package.name);
       });
 
       f.then((var ret) {
