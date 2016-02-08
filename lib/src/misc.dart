@@ -34,14 +34,14 @@ class MiscFunction extends WasanbonRPCBase {
 
   /// Echo function for test
   Future<String> echo(String code) {
-    print('${this.runtimeType}.echo($code)');
+    logger.fine('${this.runtimeType}.echo($code)');
     var completer = new Completer();
     rpc('misc_echo', [code]).then((result) {
-      print(' - $result');
+      logger.finer(' - $result');
       if (result[0]) completer.complete(result[2]);
       else completer.complete(null);
     }).catchError((error) {
-      print(' - $error');
+      logger.severe(' - $error');
       completer.completeError(error);
     });
     return completer.future;
@@ -49,14 +49,14 @@ class MiscFunction extends WasanbonRPCBase {
 
   /// Get Version Infomation of wasanbon server
   Future<VersionInfo> version() {
-    print('${this.runtimeType}.version()');
+    logger.fine('${this.runtimeType}.version()');
     var completer = new Completer();
     rpc('misc_version', []).then((result) {
-      print(' - $result');
+      logger.finer(' - $result');
       if (result[0]) completer.complete(new VersionInfo(result[2]));
       else completer.complete(null);
     }).catchError((error) {
-      print(' - $error');
+      logger.severe(' - $error');
       completer.completeError(error);
     });
     return completer.future;

@@ -3,14 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="30333453-da87-497a-bc7c-65b6dc163f57" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/src/mgrRtc.dart" afterPath="$PROJECT_DIR$/lib/src/mgrRtc.dart" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/src/misc.dart" afterPath="$PROJECT_DIR$/lib/src/misc.dart" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/src/nameservice.dart" afterPath="$PROJECT_DIR$/lib/src/nameservice.dart" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/src/processes.dart" afterPath="$PROJECT_DIR$/lib/src/processes.dart" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/mgrRtc_test.dart" afterPath="$PROJECT_DIR$/test/mgrRtc_test.dart" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/misc_test.dart" afterPath="$PROJECT_DIR$/test/misc_test.dart" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/nameservice_test.dart" afterPath="$PROJECT_DIR$/test/nameservice_test.dart" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/processes_test.dart" afterPath="$PROJECT_DIR$/test/processes_test.dart" />
     </list>
     <ignored path="wasanbon_xmlrpc.dart.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -67,11 +60,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="misc_test.dart" pinned="false" current-in-tab="true">
+      <file leaf-file-name="misc_test.dart" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test/misc_test.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.20600858">
+            <state vertical-scroll-proportion="0.0">
               <caret line="24" column="9" selection-start-line="24" selection-start-column="9" selection-end-line="24" selection-end-column="9" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="misc.dart" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/lib/src/misc.dart">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.7639485">
+              <caret line="58" column="19" selection-start-line="58" selection-start-column="19" selection-end-line="58" selection-end-column="19" />
               <folding />
             </state>
           </provider>
@@ -84,18 +87,6 @@
               <caret line="24" column="9" selection-start-line="21" selection-start-column="6" selection-end-line="24" selection-end-column="9" />
               <folding>
                 <element signature="e#201#221#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="rpc.dart" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lib/src/rpc.dart">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="45" column="3" selection-start-line="45" selection-start-column="3" selection-end-line="45" selection-end-column="3" />
-              <folding>
-                <element signature="e#31#51#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -190,7 +181,6 @@
         <option value="$PROJECT_DIR$/lib/src/mgrRepository.dart" />
         <option value="$PROJECT_DIR$/test/adminPackage_test.dart" />
         <option value="$PROJECT_DIR$/test/mgrRepository_test.dart" />
-        <option value="$PROJECT_DIR$/lib/src/misc.dart" />
         <option value="$PROJECT_DIR$/lib/src/nameservice.dart" />
         <option value="$PROJECT_DIR$/lib/src/processes.dart" />
         <option value="$PROJECT_DIR$/lib/src/mgrRtc.dart" />
@@ -198,6 +188,7 @@
         <option value="$PROJECT_DIR$/test/nameservice_test.dart" />
         <option value="$PROJECT_DIR$/test/processes_test.dart" />
         <option value="$PROJECT_DIR$/test/mgrRtc_test.dart" />
+        <option value="$PROJECT_DIR$/lib/src/misc.dart" />
       </list>
     </option>
   </component>
@@ -322,7 +313,7 @@
       <recent name="$PROJECT_DIR$/example" />
     </key>
   </component>
-  <component name="RunManager" selected="Dart Command Line App.mgrRepository_test.dart">
+  <component name="RunManager" selected="Dart Command Line App.misc_test.dart">
     <configuration default="false" name="adminPackage_test.dart" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application" temporary="true" nameIsGenerated="true">
       <option name="filePath" value="$PROJECT_DIR$/test/adminPackage_test.dart" />
       <option name="workingDirectory" value="$PROJECT_DIR$" />
@@ -338,13 +329,13 @@
       <option name="workingDirectory" value="$PROJECT_DIR$" />
       <method />
     </configuration>
-    <configuration default="false" name="adminRepository_test.dart" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application" temporary="true" nameIsGenerated="true">
-      <option name="filePath" value="$PROJECT_DIR$/test/adminRepository_test.dart" />
+    <configuration default="false" name="files_test.dart" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application" temporary="true" nameIsGenerated="true">
+      <option name="filePath" value="$PROJECT_DIR$/test/files_test.dart" />
       <option name="workingDirectory" value="$PROJECT_DIR$" />
       <method />
     </configuration>
-    <configuration default="false" name="files_test.dart" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application" temporary="true" nameIsGenerated="true">
-      <option name="filePath" value="$PROJECT_DIR$/test/files_test.dart" />
+    <configuration default="false" name="misc_test.dart" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application" temporary="true" nameIsGenerated="true">
+      <option name="filePath" value="$PROJECT_DIR$/test/misc_test.dart" />
       <option name="workingDirectory" value="$PROJECT_DIR$" />
       <method />
     </configuration>
@@ -401,16 +392,16 @@
       <item index="0" class="java.lang.String" itemvalue="Dart Command Line App.adminPackage_test.dart" />
       <item index="1" class="java.lang.String" itemvalue="Dart Command Line App.mgrRtc_test.dart" />
       <item index="2" class="java.lang.String" itemvalue="Dart Command Line App.mgrRepository_test.dart" />
-      <item index="3" class="java.lang.String" itemvalue="Dart Command Line App.adminRepository_test.dart" />
-      <item index="4" class="java.lang.String" itemvalue="Dart Command Line App.files_test.dart" />
+      <item index="3" class="java.lang.String" itemvalue="Dart Command Line App.files_test.dart" />
+      <item index="4" class="java.lang.String" itemvalue="Dart Command Line App.misc_test.dart" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Dart Command Line App.mgrRepository_test.dart" />
-        <item index="1" class="java.lang.String" itemvalue="Dart Command Line App.mgrRtc_test.dart" />
-        <item index="2" class="java.lang.String" itemvalue="Dart Command Line App.files_test.dart" />
-        <item index="3" class="java.lang.String" itemvalue="Dart Command Line App.adminPackage_test.dart" />
-        <item index="4" class="java.lang.String" itemvalue="Dart Command Line App.adminRepository_test.dart" />
+        <item index="0" class="java.lang.String" itemvalue="Dart Command Line App.misc_test.dart" />
+        <item index="1" class="java.lang.String" itemvalue="Dart Command Line App.mgrRepository_test.dart" />
+        <item index="2" class="java.lang.String" itemvalue="Dart Command Line App.mgrRtc_test.dart" />
+        <item index="3" class="java.lang.String" itemvalue="Dart Command Line App.files_test.dart" />
+        <item index="4" class="java.lang.String" itemvalue="Dart Command Line App.adminPackage_test.dart" />
       </list>
     </recent_temporary>
   </component>
@@ -575,20 +566,26 @@
       <option name="project" value="LOCAL" />
       <updated>1454894090983</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="adding logging package">
+      <created>1454894308946</created>
+      <option name="number" value="00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1454894308946</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
     <editor active="false" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24834238" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24834238" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32857144" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Dart Analysis" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25816327" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25816327" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -939,14 +936,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/src/misc.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="10" column="38" selection-start-line="10" selection-start-column="38" selection-end-line="10" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lib/src/nameservice.dart">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1054,8 +1043,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/test/misc_test.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.20600858">
+        <state vertical-scroll-proportion="0.0">
           <caret line="24" column="9" selection-start-line="24" selection-start-column="9" selection-end-line="24" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/src/misc.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7639485">
+          <caret line="58" column="19" selection-start-line="58" selection-start-column="19" selection-end-line="58" selection-end-column="19" />
           <folding />
         </state>
       </provider>
