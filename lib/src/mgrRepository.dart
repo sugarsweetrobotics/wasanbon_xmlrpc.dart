@@ -21,9 +21,9 @@ class MgrRepositoryFunction extends WasanbonRPCBase {
 
   Future<List<RtcRepositoryInfo>> list(pkg) {
     var completer = new Completer();
-    print('${this.runtimeType}.list($pkg)');
+    logger.fine('${this.runtimeType}.list($pkg)');
     rpc('mgrRepository_list', [pkg]).then((result) {
-      print(' - $result');
+      logger.finer(' - $result');
       if (!result[0]) completer.complete(null);
 
       List<RtcRepositoryInfo> infoList = new List<RtcRepositoryInfo>();
@@ -34,7 +34,7 @@ class MgrRepositoryFunction extends WasanbonRPCBase {
       infoList.sort((a, b) => a.name.compareTo(b.name));
       completer.complete(infoList);
     }).catchError((error) {
-      print(' - $error');
+      logger.severe(' - $error');
       completer.completeError(error);
     });
     return completer.future;
@@ -42,14 +42,14 @@ class MgrRepositoryFunction extends WasanbonRPCBase {
 
   Future<String> clone(pkg, rtc) {
     var completer = new Completer();
-    print('${this.runtimeType}.clone($pkg, $rtc)');
+    logger.fine('${this.runtimeType}.clone($pkg, $rtc)');
     rpc('mgrRepository_clone', [pkg, rtc]).then((result) {
-      print(' - $result');
+      logger.finer(' - $result');
       if (!result[0]) completer.complete(null);
 
       completer.complete(result[2]);
     }).catchError((error) {
-      print(' - $error');
+      logger.severe(' - $error');
       completer.completeError(error);
     });
 
