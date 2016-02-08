@@ -21,7 +21,7 @@ processes_test() {
 
     test.setUp(() async {
       rpc = new WasanbonRPC(url: "http://localhost:8000/RPC");
-      Logger.root.level = Level.WARNING;
+      Logger.root.level = Level.ALL;
       rpc.onRecordListen((LogRecord rec) {
         print('${rec.level.name}: ${rec.time}: ${rec.message}');
       });
@@ -32,42 +32,35 @@ processes_test() {
       var content = 'print "Hello World. This is Python script"';
 
       /// Pythonスクリプトを送信
-      test.expect(rpc.files.uploadFile(filename, content).then((var ret) {
+      Future f = rpc.files.uploadFile(filename, content).then((var ret) {
         print('Saved File $filename is $ret');
         test.expect(ret == filename, test.isTrue);
 
         /// Pythonスクリプトの内容確認
-        test.expect(rpc.files.downloadFile(filename).then((var ret) {
-          print('File content is $ret');
-          test.expect(ret == content, test.isTrue);
+        return rpc.files.downloadFile(filename);
+      }).then((var ret) {
+        print('File content is $ret');
+        test.expect(ret == content, test.isTrue);
 
-          /// Pythonスクリプトの実行
-          test.expect(rpc.processes.run(filename).then((var ret) {
-            print('Process Run is $ret');
-            test.expect(ret != null, test.isTrue);
+        /// Pythonスクリプトの実行
+        return rpc.processes.run(filename);
+      }).then((var ret) {
+        print('Process Run is $ret');
+        test.expect(ret != null, test.isTrue);
 
-            /// Pythonスクリプトの除去
-            test.expect(rpc.files.deleteFile(filename).then((var ret) {
-              print('File remove is $ret');
-              test.expect(ret == filename, test.isTrue);
-            }).catchError((dat) {
-              test.fail('Exception occured in removing Script');
-              print(dat);
-            }), test.completes);
-          }).catchError((dat) {
-            print(dat);
-            test.fail('Exception occured in processes_run ');
-          }), test.completes);
+        /// Pythonスクリプトの除去
+        return rpc.files.deleteFile(filename);
+      });
 
-        }).catchError((dat) {
-          test.fail('Exception occured in content verification.');
-          print(dat);
-        }), test.completes);
-
+      f.then((var ret) {
+        print('File remove is $ret');
+        test.expect(ret == filename, test.isTrue);
       }).catchError((dat) {
-        test.fail('Exception occured in Test');
         print(dat);
-      }), test.completes);
+        test.fail('Exception occured in Test');
+      });
+
+      return f;
 
     });
   });

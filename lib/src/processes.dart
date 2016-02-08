@@ -29,30 +29,28 @@ class ProcessesFunction extends WasanbonRPCBase {
 
   Future<Process> run(String filename, {List<String> args : null }) {
     if (args == null) args = [];
-
-
-    print('${this.runtimeType}.run($filename, ${args})');
+    logger.fine('${this.runtimeType}.run($filename, ${args})');
     var completer = new Completer();
     rpc('processes_run', [filename, args]).then((result) {
-      print(' - $result');
+      logger.finer(' - $result');
       if (result[0]) completer.complete(new Process(result[2][0], result[2][1]));
       else completer.complete(null);
     }).catchError((error) {
-    print(' - $error');
+      logger.severe(' - $error');
       completer.completeError(error);
     });
     return completer.future;
   }
 
   Future<Process> kill(Process p) {
-    print('${this.runtimeType}.kill($p)');
+    logger.fine('${this.runtimeType}.kill($p)');
     var completer = new Completer();
     rpc('processes_killl', [p.id]).then((result) {
-      print(' - $result');
+      logger.fine(' - $result');
       if (result[0]) completer.complete(new Process(p.name, result[2]));
       else completer.complete(null);
     }).catchError((error) {
-      print(' - $error');
+      logger.severe(' - $error');
       completer.completeError(error);
     });
     return completer.future;
