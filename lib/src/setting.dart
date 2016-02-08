@@ -47,7 +47,6 @@ class SettingFunction extends WasanbonRPCBase {
     return completer.future;
   }
 
-
   ///
   Future<bool> uploadPackage(String filename, String content) {
     logger.fine('${this.runtimeType}.uploadPackage($filename, $content)');
@@ -80,5 +79,52 @@ class SettingFunction extends WasanbonRPCBase {
     return completer.future;
   }
 
+  ///
+  Future<List<String>> applications() {
+    logger.fine('${this.runtimeType}.applications()');
+    var completer = new Completer();
+    rpc('setting_applications', []).then((result) {
+      logger.finer(' - $result');
+
+      if (result[0]) completer.complete(result[2]);
+      else completer.complete(null);
+    }).catchError((error) {
+      logger.severe(' - $error');
+      completer.completeError(error);
+    });
+    return completer.future;
+  }
+
+  ///
+  Future<bool> installPackage(String packageName, {bool force: false}) {
+    logger.fine('${this.runtimeType}.installPackage($packageName, $force)');
+    var completer = new Completer();
+    rpc('setting_install_package', [packageName, force]).then((result) {
+      logger.finer(' - $result');
+
+      if (result[0]) completer.complete(result[2]);
+      else completer.complete(null);
+    }).catchError((error) {
+      logger.severe(' - $error');
+      completer.completeError(error);
+    });
+    return completer.future;
+  }
+
+  ///
+  Future<bool> uninstallApplication(String appName) {
+    logger.fine('${this.runtimeType}.uninstallPackage($appName)');
+    var completer = new Completer();
+    rpc('setting_uninstall_application', [appName]).then((result) {
+      logger.finer(' - $result');
+
+      if (result[0]) completer.complete(result[2]);
+      else completer.complete(null);
+    }).catchError((error) {
+      logger.severe(' - $error');
+      completer.completeError(error);
+    });
+    return completer.future;
+  }
 
 }

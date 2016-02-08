@@ -53,6 +53,51 @@ setting_test() {
       return f;
     });
 
+    /// パッケージリスティング
+    test.test('List Applications', () async {
+      Future f = rpc.setting.applications();
+      f.then( (var msg) {
+        print('Applications are $msg');
+        test.expect(msg.length > 0, test.isTrue);
+      }).catchError((dat) {
+        print(dat);
+        test.fail('Exception occured in Echo test');
+      });
+      return f;
+    });
+
+    /// パッケージリスティング
+    test.test('Install/uninstall Applications', () async {
+      var test_app = 'test_app';
+      Future f = rpc.setting.applications().then( (var msg) {
+        print('Applications are $msg');
+        test.expect(msg.length > 0, test.isTrue);
+        test.expect(msg.indexOf(test_app) >= 0, test.isFalse);
+        return rpc.setting.installPackage(test_app);
+      }).then( (bool flag) {
+        print('Installation $flag');
+        return rpc.setting.applications();
+      }).then( (var msg) {
+        print('Applications are $msg');
+        test.expect(msg.indexOf(test_app) >= 0, test.isTrue);
+        return rpc.setting.uninstallApplication(test_app);
+      }).then((bool flag) {
+        print('Uninstall is $flag');
+        return rpc.setting.applications();
+      });
+
+
+      f.then((List<String> apps) {
+
+        print('Applications are $apps');
+        test.expect(apps.indexOf(test_app) < 0, test.isTrue);
+      }).catchError((dat) {
+        print(dat);
+        test.fail('Exception occured in Echo test');
+      });
+      return f;
+    });
+
     /// Upload File to package dir
     test.test('Uplaod Package', () async {
       var package_name = 'test_package';
