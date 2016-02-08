@@ -113,4 +113,90 @@ class FilesFunction extends WasanbonRPCBase {
     return completer.future;
   }
 
+  Future<String> copyFile(String src, String dst) {
+    logger.fine('${this.runtimeType}.copyFile($src, $dst)');
+    var completer = new Completer();
+    rpc('files_copy_file', [src, dst]).then((result) {
+      logger.finer(' - $result');
+      if (result[0]) completer.complete(result[2]);
+      else completer.complete(null);
+    }).catchError((error) {
+      logger.severe(' - $error');
+      completer.completeError(error);
+    });
+    return completer.future;
+  }
+
+
+  Future<String> renameFile(String src, String dst) {
+    logger.fine('${this.runtimeType}.renameFile($src, $dst)');
+    var completer = new Completer();
+    rpc('files_rename_file', [src, dst]).then((result) {
+      logger.finer(' - $result');
+      if (result[0]) completer.complete(result[2]);
+      else completer.complete(null);
+    }).catchError((error) {
+      logger.severe(' - $error');
+      completer.completeError(error);
+    });
+    return completer.future;
+  }
+
+  Future<String> makeDir(String path) {
+    logger.fine('${this.runtimeType}.makeDir($path)');
+    var completer = new Completer();
+    rpc('files_make_dir', [path]).then((result) {
+      logger.finer(' - $result');
+      if (result[0]) completer.complete(result[2]);
+      else completer.complete(null);
+    }).catchError((error) {
+      logger.severe(' - $error');
+      completer.completeError(error);
+    });
+    return completer.future;
+  }
+
+  Future<bool> isDir(String path) {
+    logger.fine('${this.runtimeType}.isDir($path)');
+    var completer = new Completer();
+    rpc('files_is_dir', [path]).then((result) {
+      logger.finer(' - $result');
+      if (result[0]) completer.complete(result[2]);
+      else completer.complete(null);
+    }).catchError((error) {
+      logger.severe(' - $error');
+      completer.completeError(error);
+    });
+    return completer.future;
+  }
+
+  Future<bool> isFile(String path) {
+    logger.fine('${this.runtimeType}.isFile($path)');
+    var completer = new Completer();
+    rpc('files_is_file', [path]).then((result) {
+      logger.finer(' - $result');
+      if (result[0]) completer.complete(result[2]);
+      else completer.complete(null);
+    }).catchError((error) {
+      logger.severe(' - $error');
+      completer.completeError(error);
+    });
+    return completer.future;
+  }
+
+
+  Future<String> removeDir(String path, {recursive: false}) {
+    logger.fine('${this.runtimeType}.removeDir($path, recursive: $recursive)');
+    var completer = new Completer();
+    rpc('files_remove_dir', [path, recursive]).then((result) {
+      logger.finer(' - $result');
+      if (result[0]) completer.complete(result[2]);
+      else completer.complete(null);
+    }).catchError((error) {
+      logger.severe(' - $error');
+      completer.completeError(error);
+    });
+    return completer.future;
+  }
+
 }

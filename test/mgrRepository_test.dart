@@ -1,6 +1,6 @@
 // is governed by a BSD-style license that can be found in the LICENSE file.
 
-library wasanbon_xmlrpc.test.rtc_test;
+library wasanbon_xmlrpc.test.mgrRepository_test;
 
 import 'dart:async';
 import 'package:unittest/unittest.dart' as test;
@@ -9,10 +9,10 @@ import 'package:logging/logging.dart';
 
 
 main() {
-  mgrRtc_test();
+  mgrRepository_test();
 }
 
-mgrRtc_test() {
+mgrRepository_test() {
   test.group('RTC Repository tests', () {
     WasanbonRPC rpc;
 

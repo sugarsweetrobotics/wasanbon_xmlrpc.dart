@@ -1,7 +1,7 @@
 // Copyright (c) 2015, <your name>. All rights reserved. Use of this source code
 // is governed by a BSD-style license that can be found in the LICENSE file.
 
-library wasanbon_xmlrpc.test.admin_test;
+library wasanbon_xmlrpc.test.adminPackage_test;
 
 import 'dart:async';
 import 'package:unittest/unittest.dart' as test;
@@ -9,10 +9,10 @@ import 'package:wasanbon_xmlrpc/wasanbon_xmlrpc.dart';
 import 'package:logging/logging.dart';
 
 main() {
-  admin_test();
+  adminPackage_test();
 }
 
-admin_test() {
+adminPackage_test() {
 
   test.group('Admin Package tests', () {
     WasanbonRPC rpc;
