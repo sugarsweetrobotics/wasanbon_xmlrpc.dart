@@ -40,14 +40,14 @@ class MgrRepositoryFunction extends WasanbonRPCBase {
     return completer.future;
   }
 
-  Future<String> clone(pkg, rtc) {
+  Future<bool> clone(pkg, rtc) {
     var completer = new Completer();
     logger.fine('${this.runtimeType}.clone($pkg, $rtc)');
     rpc('mgrRepository_clone', [pkg, rtc]).then((result) {
       logger.finer(' - $result');
       if (!result[0]) completer.complete(null);
 
-      completer.complete(result[2]);
+      completer.complete(result[2][0] == 0);
     }).catchError((error) {
       logger.severe(' - $error');
       completer.completeError(error);

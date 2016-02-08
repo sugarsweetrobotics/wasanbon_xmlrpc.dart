@@ -6,7 +6,7 @@ library wasanbon_xmlrpc.test.admin_test;
 import 'dart:async';
 import 'package:unittest/unittest.dart' as test;
 import 'package:wasanbon_xmlrpc/wasanbon_xmlrpc.dart';
-
+import 'package:logging/logging.dart';
 
 main() {
   admin_test();
@@ -19,6 +19,10 @@ admin_test() {
 
     test.setUp(() async {
       rpc = new WasanbonRPC(url: "http://localhost:8000/RPC");
+      Logger.root.level = Level.FINE;
+      rpc.onRecordListen((LogRecord rec) {
+        print('${rec.level.name}: ${rec.time}: ${rec.message}');
+      });
     });
 
     /// リスティングテスト
@@ -40,12 +44,12 @@ admin_test() {
     /// クローンテスト
     test.test('Cloning and Deleting Packages', () async {
       var pkgs;
-      var repo_names = ['test_package01', 'test_package02', 'test_package03'];
+      var repo_names = ['test_project01', 'test_project02', 'test_project03'];
       var clone_repository = '';
       var cloned_package;
       // 現状のパッケージのリストを取得
       Future f = rpc.adminPackage.list().then((List<PackageInfo> pkgs_) {
-        print('Packages are $pkgs');
+        print('Packages are $pkgs_');
         pkgs = pkgs_;
         test.expect(pkgs.length > 0, test.isTrue);
 
@@ -102,7 +106,7 @@ admin_test() {
         cloned_package = new_pkgs[i];
 
         test.expect(
-            cloned_package.name == clone_repository.name, test.isTrue);
+            cloned_package.name == clone_repository, test.isTrue);
 
         /// パッケージを削除
         return rpc.adminPackage.delete(cloned_package.name);

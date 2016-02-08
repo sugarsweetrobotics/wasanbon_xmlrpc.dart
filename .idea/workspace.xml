@@ -3,8 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="30333453-da87-497a-bc7c-65b6dc163f57" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/src/processes.dart" afterPath="$PROJECT_DIR$/lib/src/processes.dart" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/processes_test.dart" afterPath="$PROJECT_DIR$/test/processes_test.dart" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/src/mgrRepository.dart" afterPath="$PROJECT_DIR$/lib/src/mgrRepository.dart" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/adminRepository_test.dart" afterPath="$PROJECT_DIR$/test/adminRepository_test.dart" />
     </list>
     <ignored path="wasanbon_xmlrpc.dart.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -25,62 +25,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="nameservice.dart" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lib/src/nameservice.dart">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-256.4151">
-              <caret line="906" column="33" selection-start-line="906" selection-start-column="33" selection-end-line="906" selection-end-column="33" />
-              <folding>
-                <element signature="e#39#58#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="nameservice_test.dart" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/nameservice_test.dart">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="323" column="28" selection-start-line="323" selection-start-column="28" selection-end-line="323" selection-end-column="28" />
-              <folding>
-                <element signature="e#207#227#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="mgrRepository_test.dart" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/mgrRepository_test.dart">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="42" column="21" selection-start-line="42" selection-start-column="21" selection-end-line="42" selection-end-column="21" />
-              <folding>
-                <element signature="e#118#138#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="misc_test.dart" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/misc_test.dart">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="24" column="9" selection-start-line="24" selection-start-column="9" selection-end-line="24" selection-end-column="9" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="misc.dart" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lib/src/misc.dart">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="58" column="19" selection-start-line="58" selection-start-column="19" selection-end-line="58" selection-end-column="19" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="files_test.dart" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test/files_test.dart">
           <provider selected="true" editor-type-id="text-editor">
@@ -93,12 +37,74 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="processes_test.dart" pinned="false" current-in-tab="true">
+      <file leaf-file-name="processes_test.dart" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test/processes_test.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7424893">
-              <caret line="53" column="0" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="61" column="0" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="adminRepository.dart" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lib/src/adminRepository.dart">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="78" column="7" selection-start-line="78" selection-start-column="7" selection-end-line="78" selection-end-column="7" />
+              <folding>
+                <element signature="e#44#64#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="adminRepository_test.dart" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/test/adminRepository_test.dart">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.38626608">
+              <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#3422#0" expanded="true" />
+                <element signature="e#201#221#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="mgrRepository.dart" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lib/src/mgrRepository.dart">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="48" column="0" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
+              <folding>
+                <element signature="e#41#60#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="adminPackage.dart" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lib/src/adminPackage.dart">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="72" column="15" selection-start-line="72" selection-start-column="4" selection-end-line="72" selection-end-column="15" />
+              <folding>
+                <element signature="e#41#61#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="adminPackage_test.dart" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test/adminPackage_test.dart">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="24" column="9" selection-start-line="21" selection-start-column="6" selection-end-line="24" selection-end-column="9" />
+              <folding>
+                <element signature="e#0#1120#0" expanded="true" />
+                <element signature="e#201#221#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -165,7 +171,6 @@
         <option value="$PROJECT_DIR$/lib/src/admin.dart" />
         <option value="$PROJECT_DIR$/test/admin_test.dart" />
         <option value="$PROJECT_DIR$/lib/wasanbon_xmlrpc.dart" />
-        <option value="$PROJECT_DIR$/test/adminRepository_test.dart" />
         <option value="$PROJECT_DIR$/pubspec.yaml" />
         <option value="$PROJECT_DIR$/lib/src/base.dart" />
         <option value="$PROJECT_DIR$/lib/src/rpc.dart" />
@@ -174,7 +179,6 @@
         <option value="$PROJECT_DIR$/lib/src/files.dart" />
         <option value="$PROJECT_DIR$/test/files_test.dart" />
         <option value="$PROJECT_DIR$/lib/src/mgrAdmin.dart" />
-        <option value="$PROJECT_DIR$/lib/src/mgrRepository.dart" />
         <option value="$PROJECT_DIR$/test/adminPackage_test.dart" />
         <option value="$PROJECT_DIR$/test/mgrRepository_test.dart" />
         <option value="$PROJECT_DIR$/lib/src/mgrRtc.dart" />
@@ -185,6 +189,8 @@
         <option value="$PROJECT_DIR$/test/nameservice_test.dart" />
         <option value="$PROJECT_DIR$/lib/src/processes.dart" />
         <option value="$PROJECT_DIR$/test/processes_test.dart" />
+        <option value="$PROJECT_DIR$/lib/src/mgrRepository.dart" />
+        <option value="$PROJECT_DIR$/test/adminRepository_test.dart" />
       </list>
     </option>
   </component>
@@ -309,12 +315,7 @@
       <recent name="$PROJECT_DIR$/example" />
     </key>
   </component>
-  <component name="RunManager" selected="Dart Command Line App.processes_test.dart">
-    <configuration default="false" name="mgrRepository_test.dart" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application" temporary="true" nameIsGenerated="true">
-      <option name="filePath" value="$PROJECT_DIR$/test/mgrRepository_test.dart" />
-      <option name="workingDirectory" value="$PROJECT_DIR$" />
-      <method />
-    </configuration>
+  <component name="RunManager" selected="Dart Command Line App.adminRepository_test.dart">
     <configuration default="false" name="misc_test.dart" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application" temporary="true" nameIsGenerated="true">
       <option name="filePath" value="$PROJECT_DIR$/test/misc_test.dart" />
       <option name="workingDirectory" value="$PROJECT_DIR$" />
@@ -332,6 +333,11 @@
     </configuration>
     <configuration default="false" name="files_test.dart" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application" temporary="true" nameIsGenerated="true">
       <option name="filePath" value="$PROJECT_DIR$/test/files_test.dart" />
+      <option name="workingDirectory" value="$PROJECT_DIR$" />
+      <method />
+    </configuration>
+    <configuration default="false" name="adminRepository_test.dart" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application" temporary="true" nameIsGenerated="true">
+      <option name="filePath" value="$PROJECT_DIR$/test/adminRepository_test.dart" />
       <option name="workingDirectory" value="$PROJECT_DIR$" />
       <method />
     </configuration>
@@ -385,19 +391,19 @@
       <method />
     </configuration>
     <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="Dart Command Line App.mgrRepository_test.dart" />
-      <item index="1" class="java.lang.String" itemvalue="Dart Command Line App.misc_test.dart" />
-      <item index="2" class="java.lang.String" itemvalue="Dart Command Line App.nameservice_test.dart" />
-      <item index="3" class="java.lang.String" itemvalue="Dart Command Line App.processes_test.dart" />
-      <item index="4" class="java.lang.String" itemvalue="Dart Command Line App.files_test.dart" />
+      <item index="0" class="java.lang.String" itemvalue="Dart Command Line App.misc_test.dart" />
+      <item index="1" class="java.lang.String" itemvalue="Dart Command Line App.nameservice_test.dart" />
+      <item index="2" class="java.lang.String" itemvalue="Dart Command Line App.processes_test.dart" />
+      <item index="3" class="java.lang.String" itemvalue="Dart Command Line App.files_test.dart" />
+      <item index="4" class="java.lang.String" itemvalue="Dart Command Line App.adminRepository_test.dart" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Dart Command Line App.processes_test.dart" />
-        <item index="1" class="java.lang.String" itemvalue="Dart Command Line App.files_test.dart" />
-        <item index="2" class="java.lang.String" itemvalue="Dart Command Line App.nameservice_test.dart" />
-        <item index="3" class="java.lang.String" itemvalue="Dart Command Line App.misc_test.dart" />
-        <item index="4" class="java.lang.String" itemvalue="Dart Command Line App.mgrRepository_test.dart" />
+        <item index="0" class="java.lang.String" itemvalue="Dart Command Line App.adminRepository_test.dart" />
+        <item index="1" class="java.lang.String" itemvalue="Dart Command Line App.processes_test.dart" />
+        <item index="2" class="java.lang.String" itemvalue="Dart Command Line App.files_test.dart" />
+        <item index="3" class="java.lang.String" itemvalue="Dart Command Line App.nameservice_test.dart" />
+        <item index="4" class="java.lang.String" itemvalue="Dart Command Line App.misc_test.dart" />
       </list>
     </recent_temporary>
   </component>
@@ -580,17 +586,24 @@
       <option name="project" value="LOCAL" />
       <updated>1454894562283</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="adding logging package">
+      <created>1454894891281</created>
+      <option name="number" value="00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1454894891281</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
     <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24834238" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24834238" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32857144" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32857144" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Dart Analysis" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25816327" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -604,7 +617,6 @@
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32857144" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -851,26 +863,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/src/adminPackage.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.888889">
-          <caret line="72" column="15" selection-start-line="72" selection-start-column="4" selection-end-line="72" selection-end-column="15" />
-          <folding>
-            <element signature="e#41#61#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/src/adminRepository.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.0643777">
-          <caret line="78" column="7" selection-start-line="78" selection-start-column="7" selection-end-line="78" selection-end-column="7" />
-          <folding>
-            <element signature="e#44#64#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lib/src/base.dart">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="1.5021459">
@@ -891,40 +883,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test/adminRepository_test.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="114" column="8" selection-start-line="114" selection-start-column="8" selection-end-line="114" selection-end-column="8" />
-          <folding>
-            <element signature="e#0#3232#0" expanded="true" />
-            <element signature="e#201#221#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/adminPackage_test.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="9" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#1120#0" expanded="true" />
-            <element signature="e#201#221#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/unittest-0.11.5+4/lib/src/simple_configuration.dart">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="196" column="31" selection-start-line="196" selection-start-column="31" selection-end-line="196" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/src/mgrRepository.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="8" column="37" selection-start-line="8" selection-start-column="37" selection-end-line="9" selection-end-column="38" />
           <folding />
         </state>
       </provider>
@@ -1060,9 +1022,61 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/test/processes_test.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7424893">
-          <caret line="53" column="0" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="61" column="0" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/src/adminRepository.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="78" column="7" selection-start-line="78" selection-start-column="7" selection-end-line="78" selection-end-column="7" />
+          <folding>
+            <element signature="e#44#64#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/src/adminPackage.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="72" column="15" selection-start-line="72" selection-start-column="4" selection-end-line="72" selection-end-column="15" />
+          <folding>
+            <element signature="e#41#61#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/adminPackage_test.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="24" column="9" selection-start-line="21" selection-start-column="6" selection-end-line="24" selection-end-column="9" />
+          <folding>
+            <element signature="e#0#1120#0" expanded="true" />
+            <element signature="e#201#221#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/src/mgrRepository.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="48" column="0" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
+          <folding>
+            <element signature="e#41#60#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/adminRepository_test.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.38626608">
+          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#3422#0" expanded="true" />
+            <element signature="e#201#221#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
