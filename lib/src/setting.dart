@@ -127,4 +127,38 @@ class SettingFunction extends WasanbonRPCBase {
     return completer.future;
   }
 
+
+  ///
+  Future<bool> restart() {
+    logger.fine('${this.runtimeType}.restart()');
+    var completer = new Completer();
+    rpc('setting_restart', []).then((result) {
+      logger.finer(' - $result');
+
+      if (result[0]) completer.complete(result[2]);
+      else completer.complete(null);
+    }).catchError((error) {
+      logger.severe(' - $error');
+      completer.completeError(error);
+    });
+    return completer.future;
+  }
+
+  ///
+  Future<bool> stop() {
+    logger.fine('${this.runtimeType}.stop()');
+    var completer = new Completer();
+    rpc('setting_stop', []).then((result) {
+      logger.finer(' - $result');
+
+      if (result[0]) completer.complete(result[2]);
+      else completer.complete(null);
+    }).catchError((error) {
+      logger.severe(' - $error');
+      completer.completeError(error);
+    });
+    return completer.future;
+  }
+
+
 }

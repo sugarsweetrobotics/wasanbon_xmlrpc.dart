@@ -125,6 +125,33 @@ setting_test() {
       return f;
     });
 
+    /// Upload File to package dir
+    test.test('Restart System', () async {
+      Future f = rpc.setting.restart();
+
+      f.then( (bool flag) {
+        print('Packages are $flag');
+      }).catchError((dat) {
+        print(dat);
+        test.fail('Exception occured in Upload test');
+      });
+      return f;
+    });
+
+    /*
+    /// Upload File to package dir
+    test.test('Stop System', () async {
+      Future f = rpc.setting.stop();
+
+      f.then( (bool flag) {
+        print('Packages are $flag');
+      }).catchError((dat) {
+        print(dat);
+        test.fail('Exception occured in Upload test');
+      });
+      return f;
+    });
+*/
 
   });
 }
