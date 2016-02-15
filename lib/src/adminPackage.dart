@@ -24,6 +24,9 @@ class PackageInfo {
   String conf_python = "";
   String conf_java = "";
   String defaultSystem = "";
+  bool running = false;
+
+  bool isRunning() {return running;}
 
   List<String> rtcNames = new List<String>();
 
@@ -57,6 +60,7 @@ class PackageInfo {
     this.conf_python = result['conf']['Python'];
     this.conf_java = result['conf']['Java'];
     this.defaultSystem = result['defaultSystem'];
+    this.running = result['running'];
   }
 }
 
