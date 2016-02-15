@@ -13,7 +13,7 @@ import 'nameservice.dart';
 import 'rtc.dart';
 import 'mgrRtc.dart';
 import 'mgrRepository.dart';
-import 'system.dart';
+import 'mgrSystem.dart';
 import 'misc.dart';
 import 'files.dart';
 import 'processes.dart';
@@ -26,7 +26,7 @@ class WasanbonRPC {
   AdminPackageFunction adminPackage;
   NameServiceFunction nameService;
   RtcFunction rtc;
-  SystemFunction system;
+  MgrSystemFunction mgrSystem;
   MgrRtcFunction mgrRtc;
   MiscFunction misc;
   FilesFunction files;
@@ -39,7 +39,7 @@ class WasanbonRPC {
     adminRepository = new AdminRepositoryFunction(url: url, client: client);
     nameService = new NameServiceFunction(url: url, client: client);
     rtc = new RtcFunction(url: url, client: client);
-    system = new SystemFunction(url: url, client: client);
+    mgrSystem = new MgrSystemFunction(url: url, client: client);
     mgrRtc = new MgrRtcFunction(url: url, client: client);
     mgrRepository = new MgrRepositoryFunction(url: url, client: client);
     misc = new MiscFunction(url:url, client: client);
@@ -53,7 +53,7 @@ class WasanbonRPC {
     adminRepository.logger.onRecord.listen(func);
     nameService.logger.onRecord.listen(func);
     rtc.logger.onRecord.listen(func);
-    system.logger.onRecord.listen(func);
+    mgrSystem.logger.onRecord.listen(func);
     mgrRtc.logger.onRecord.listen(func);
     mgrRepository.logger.onRecord.listen(func);
     misc.logger.onRecord.listen(func);

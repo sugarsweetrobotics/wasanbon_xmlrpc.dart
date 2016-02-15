@@ -14,7 +14,7 @@ export 'src/nameservice.dart';
 export 'src/rtc.dart';
 export 'src/mgrRtc.dart';
 export 'src/mgrRepository.dart';
-export 'src/system.dart';
+export 'src/mgrSystem.dart';
 export 'src/adminPackage.dart';
 export 'src/adminRepository.dart';
 export 'src/files.dart';

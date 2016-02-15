@@ -73,10 +73,10 @@ class AdminPackageFunction extends WasanbonRPCBase {
   }
 
   /// Get Package Info List of wasanbon server
-  Future<List<PackageInfo>> list() {
-    logger.fine('${this.runtimeType}.getPackageList()');
+  Future<List<PackageInfo>> list({bool running: false}) {
+    logger.fine('${this.runtimeType}.getPackageList(running: $running)');
     var completer = new Completer();
-    rpc('adminPackage_list', []).then((result) {
+    rpc('adminPackage_list', [running]).then((result) {
       logger.finer(' - $result');
       yaml.YamlMap res = yaml.loadYaml(result[2]);
       List<PackageInfo> pkgs = [];

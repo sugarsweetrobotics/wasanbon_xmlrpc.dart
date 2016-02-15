@@ -40,6 +40,21 @@ adminPackage_test() {
       return f;
     });
 
+    /// リスティングテスト
+    test.test('Listing Running Packages', () async {
+      Future f = rpc.adminPackage.list(running: true);
+
+      f.then((List<PackageInfo> pkgs) {
+        print('Packages are $pkgs');
+        test.expect(pkgs.length > 0, test.isTrue);
+      }).catchError((dat) {
+        print(dat);
+        test.fail('Exception occured in Package listing test');
+      });
+
+      return f;
+    });
+
 
   });
 }
