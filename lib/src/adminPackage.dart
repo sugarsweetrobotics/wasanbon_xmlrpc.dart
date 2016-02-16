@@ -60,6 +60,7 @@ class PackageInfo {
     this.conf_python = result['conf']['Python'];
     this.conf_java = result['conf']['Java'];
     this.defaultSystem = result['defaultSystem'];
+    this.defaultSystem = result['description'];
     this.running = result['running'];
   }
 }
