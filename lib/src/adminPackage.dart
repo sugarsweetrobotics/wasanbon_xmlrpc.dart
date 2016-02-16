@@ -60,7 +60,8 @@ class PackageInfo {
     this.conf_python = result['conf']['Python'];
     this.conf_java = result['conf']['Java'];
     this.defaultSystem = result['defaultSystem'];
-    this.defaultSystem = result['description'];
+
+    this.description = result['description'];
     this.running = result['running'];
   }
 }
@@ -81,8 +82,10 @@ class AdminPackageFunction extends WasanbonRPCBase {
       logger.finer(' - $result');
       yaml.YamlMap res = yaml.loadYaml(result[2]);
       List<PackageInfo> pkgs = [];
-      for(String name in res.keys) {
-        pkgs.add(new PackageInfo(name, res[name]));
+      if (res != null) {
+        for (String name in res.keys) {
+          pkgs.add(new PackageInfo(name, res[name]));
+        }
       }
       pkgs.sort((a, b) => a.name.compareTo(b.name));
       completer.complete(pkgs);

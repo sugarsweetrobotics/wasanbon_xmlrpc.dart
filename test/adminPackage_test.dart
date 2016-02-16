@@ -45,8 +45,8 @@ adminPackage_test() {
       Future f = rpc.adminPackage.list(running: true);
 
       f.then((List<PackageInfo> pkgs) {
-        print('Packages are $pkgs');
-        test.expect(pkgs.length > 0, test.isTrue);
+        print('Running Packages are $pkgs');
+        test.expect(pkgs.length >= 0, test.isTrue);
       }).catchError((dat) {
         print(dat);
         test.fail('Exception occured in Package listing test');
