@@ -21,3 +21,4 @@ export 'src/files.dart';
 export 'src/processes.dart';
 export 'src/misc.dart';
 export 'src/processes.dart';
+export 'src/wsconverter.dart';
