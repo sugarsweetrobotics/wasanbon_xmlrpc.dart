@@ -96,10 +96,10 @@ class SettingFunction extends WasanbonRPCBase {
   }
 
   ///
-  Future<bool> installPackage(String packageName, {bool force: false}) {
-    logger.fine('${this.runtimeType}.installPackage($packageName, $force)');
+  Future<bool> installPackage(String packageName, {bool force: false, String version: ''}) {
+    logger.fine('${this.runtimeType}.installPackage($packageName, $force, $version)');
     var completer = new Completer();
-    rpc('setting_install_package', [packageName, force]).then((result) {
+    rpc('setting_install_package', [packageName, force, version]).then((result) {
       logger.finer(' - $result');
 
       if (result[0]) completer.complete(result[2]);

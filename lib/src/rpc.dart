@@ -19,6 +19,7 @@ import 'files.dart';
 import 'processes.dart';
 import 'setting.dart';
 import 'wsconverter.dart';
+import 'appshare.dart';
 
 class WasanbonRPC {
 
@@ -35,6 +36,7 @@ class WasanbonRPC {
   MgrRepositoryFunction mgrRepository;
   SettingFunction setting;
   WSConverterFunction wsconverter;
+  AppshareFunction appshare;
 
   WasanbonRPC({String url:'http://localhost:8000/RPC', http.Client client:null}) {
     adminPackage = new AdminPackageFunction(url: url, client: client);
@@ -49,6 +51,7 @@ class WasanbonRPC {
     processes = new ProcessesFunction(url:url, client:client);
     setting = new SettingFunction(url:url, client:client);
     wsconverter = new WSConverterFunction(url:url, client:client);
+    appshare = new AppshareFunction(url:url, client:client);
   }
 
   onRecordListen(var func) {
@@ -64,6 +67,7 @@ class WasanbonRPC {
     processes.logger.onRecord.listen(func);
     setting.logger.onRecord.listen(func);
     wsconverter.logger.onRecord.listen(func);
+    appshare.logger.onRecord.listen(func);
   }
 
 }
