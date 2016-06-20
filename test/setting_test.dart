@@ -19,7 +19,7 @@ setting_test() {
 
     test.setUp(() async {
       rpc = new WasanbonRPC(url: "http://localhost:8000/RPC");
-      Logger.root.level = Level.WARNING;
+      Logger.root.level = Level.ALL;
       rpc.onRecordListen((LogRecord rec) {
         print('${rec.level.name}: ${rec.time}: ${rec.message}');
       });
@@ -57,15 +57,16 @@ setting_test() {
     test.test('List Applications', () async {
       Future f = rpc.setting.applications();
       f.then( (var msg) {
-        print('Applications are $msg');
+        print('Listing Applications are $msg');
         test.expect(msg.length > 0, test.isTrue);
       }).catchError((dat) {
         print(dat);
-        test.fail('Exception occured in Echo test');
+        test.fail('Exception occured in Application test');
       });
       return f;
     });
 
+    /*
     /// パッケージリスティング
     test.test('Install/uninstall Applications', () async {
       var test_app = 'test_app';
@@ -78,7 +79,7 @@ setting_test() {
         print('Installation $flag');
         return rpc.setting.applications();
       }).then( (var msg) {
-        print('Applications are $msg');
+        print('Packages are $msg');
         test.expect(msg.indexOf(test_app) >= 0, test.isTrue);
         return rpc.setting.uninstallApplication(test_app);
       }).then((bool flag) {
@@ -98,6 +99,7 @@ setting_test() {
       return f;
     });
 
+*/
     /// Upload File to package dir
     test.test('Uplaod Package', () async {
       var package_name = 'test_package';
@@ -125,20 +127,37 @@ setting_test() {
       return f;
     });
 
-    /// Upload File to package dir
+    /*
+    /// Restart
     test.test('Restart System', () async {
       Future f = rpc.setting.restart();
 
       f.then( (bool flag) {
-        print('Packages are $flag');
+        print('Restart is  $flag');
       }).catchError((dat) {
         print(dat);
-        test.fail('Exception occured in Upload test');
+        test.fail('Exception occured in Restart');
+      });
+      return f;
+    });
+    */
+
+
+    /// Self Update
+    test.test('Self Update', () async {
+      Future f = rpc.setting.selfupdate();
+
+      f.then( (bool flag) {
+        print('Self update is $flag');
+      }).catchError((dat) {
+        print(dat);
+        test.fail('Exception occured in Selfupdate');
       });
       return f;
     });
 
-    /*
+
+/*
     /// Upload File to package dir
     test.test('Stop System', () async {
       Future f = rpc.setting.stop();
@@ -151,7 +170,7 @@ setting_test() {
       });
       return f;
     });
-*/
 
+*/
   });
 }

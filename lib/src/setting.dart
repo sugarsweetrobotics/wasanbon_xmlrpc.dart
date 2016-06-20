@@ -160,5 +160,21 @@ class SettingFunction extends WasanbonRPCBase {
     return completer.future;
   }
 
+  ///
+  Future<bool> selfupdate() {
+    logger.fine('${this.runtimeType}.selfupdate()');
+    var completer = new Completer();
+    rpc('setting_selfupdate', []).then((result) {
+      logger.finer(' - $result');
+
+      if (result[0]) completer.complete(result[2] == 0);
+      else completer.complete(null);
+    }).catchError((error) {
+      logger.severe(' - $error');
+      completer.completeError(error);
+    });
+    return completer.future;
+  }
+
 
 }
