@@ -168,7 +168,7 @@ class SettingFunction extends WasanbonRPCBase {
       logger.finer(' - $result');
 
       if (result[0]) completer.complete(result[2] == 0);
-      else completer.complete(null);
+      else completer.complete(result);
     }).catchError((error) {
       logger.severe(' - $error');
       completer.completeError(error);
